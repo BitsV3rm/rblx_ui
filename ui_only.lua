@@ -465,7 +465,7 @@ Section_Extra_OpenClones:Dropdown({
 	end,
 }, "Extra_OpenClones_Dropdown")
 Section_Extra_OpenClones:Toggle({ 
-	Name = "Auto-Digiclone",
+	Name = "Auto-Clone",
 	Default = false,
 	Callback = function()
 	end,
@@ -484,7 +484,7 @@ Section_Extra_OpenBoxes:Dropdown({
 	end,
 }, "Extra_OpenBoxes_Dropdown")
 Section_Extra_OpenBoxes:Toggle({ 
-	Name = "Auto-Open Boxes",
+	Name = "Auto-Open",
 	Default = false,
 	Callback = function()
 	end,
