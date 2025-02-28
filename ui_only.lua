@@ -187,7 +187,7 @@ Section_Main_Functions:Toggle({ -- Main Auto-Dungeon Toggle
 		end
 	end,
 }, "AutoDungeon_Toggle")
-Section_Main_Functions:Toggle({ -- Main Auto-Colosseum Toggle
+Section_Main_Functions:Toggle({ 
 	Name = "Auto-Colosseum",
 	Default = false,
 	Callback = function()
@@ -217,7 +217,7 @@ Section_Main_Functions:Toggle({ -- Main Auto-Colosseum Toggle
 local Section_Main_Save = Tab_Main:Section({ -- Main Enable Section
     Side = "Right"
 })
-Section_Main_Save:Toggle({ -- Main Auto-Colosseum Toggle
+Section_Main_Save:Toggle({ 
 	Name = "Auto-Save Config",
 	Default = false,
 	Callback = function()
@@ -259,7 +259,7 @@ local Section_AutoFarm_Bot = Tab_AutoFarm:Section({ --
 Section_AutoFarm_Bot:Header({
 	Text = "Bot Mode"
 }, "")
-Section_AutoFarm_Bot:Toggle({ -- Main Auto-Colosseum Toggle
+Section_AutoFarm_Bot:Toggle({ 
 	Name = "Enable",
 	Default = false,
 	Callback = function()
@@ -322,7 +322,7 @@ local Section_AutoFarm_Macro = Tab_AutoFarm:Section({ --
 Section_AutoFarm_Macro:Header({
 	Text = "Macro Mode"
 }, "")
-Section_AutoFarm_Macro:Toggle({ -- Main Auto-Colosseum Toggle
+Section_AutoFarm_Macro:Toggle({ 
 	Name = "Enable",
 	Default = false,
 	Callback = function()
@@ -446,8 +446,8 @@ Section_AutoColosseum_Reconnect:Slider({
 	end,
 }, "AutoColosseum_Reconnect_Slider")
 
-local Extra_Settings = Window:TabGroup() -- Settings Group
-local Tab_Extra = Extra_Settings:Tab({ -- Settings Settings Tab
+local Extra_Settings = Window:TabGroup() 
+local Tab_Extra = Extra_Settings:Tab({ 
     Name = "Extra",
     Image = "rbxassetid://73899994101513"
 })
@@ -464,7 +464,7 @@ Section_Extra_OpenClones:Dropdown({
 	Callback = function()
 	end,
 }, "Extra_OpenClones_Dropdown")
-Section_Extra_OpenClones:Toggle({ -- Main Auto-Colosseum Toggle
+Section_Extra_OpenClones:Toggle({ 
 	Name = "Auto-Digiclone",
 	Default = false,
 	Callback = function()
@@ -483,15 +483,15 @@ Section_Extra_OpenBoxes:Dropdown({
 	Callback = function()
 	end,
 }, "Extra_OpenBoxes_Dropdown")
-Section_Extra_OpenBoxes:Toggle({ -- Main Auto-Colosseum Toggle
+Section_Extra_OpenBoxes:Toggle({ 
 	Name = "Auto-Open Boxes",
 	Default = false,
 	Callback = function()
 	end,
 }, "Extra_OpenBoxes_Toggle")
 
-local Group_Settings = Window:TabGroup() -- Settings Group
-local Tab_Settings = Group_Settings:Tab({ -- Settings Settings Tab
+local Group_Settings = Window:TabGroup() 
+local Tab_Settings = Group_Settings:Tab({ 
     Name = "Settings",
     Image = "rbxassetid://73899994101513"
 })
@@ -499,17 +499,23 @@ local Tab_Settings = Group_Settings:Tab({ -- Settings Settings Tab
 local Section_Settings_Misc = Tab_Settings:Section({
 	Side = "Left"
 })
-Section_Settings_Misc:Toggle({ -- Main Auto-Colosseum Toggle
+Section_Settings_Misc:Toggle({ 
 	Name = "Check Update",
 	Default = false,
 	Callback = function()
 	end,
 }, "Settings_CheckUpdate_Toggle")
+Section_Settings_Misc:Toggle({
+	Name = "Streamer Mode",
+	Default = false,
+	Callback = function()
+	end,
+}, "Settings_StreamerMode_Toggle")
 
 local Section_Settings_Discord = Tab_Settings:Section({
 	Side = "Right"
 })
-Section_Settings_Discord:Toggle({ -- Main Auto-Colosseum Toggle
+Section_Settings_Discord:Toggle({ 
 	Name = "Enable Discord Webhook",
 	Default = false,
 	Callback = function()
