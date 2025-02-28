@@ -278,8 +278,8 @@ Section_Main_Functions:Toggle({ -- Main Auto-Farm Toggle
                 task.wait(0.1)
                 auto_Farm()
             end
-            saveConfig()
 		end
+        saveConfig()
 	end,
 }, "AutoFarm_Toggle")
 Section_Main_Functions:Toggle({ -- Main Auto-Dungeon Toggle
@@ -307,9 +307,9 @@ Section_Main_Functions:Toggle({ -- Main Auto-Dungeon Toggle
             if MacLib.Options["EnabledButton"].State and MacLib.Options["AutoDungeon_Difficulty_Dropdown"].Value then
                 --Dungeon Farm
             end
-
-			saveConfig()
 		end
+        saveConfig()
+
 	end,
 }, "AutoDungeon_Toggle")
 Section_Main_Functions:Toggle({ 
@@ -337,9 +337,8 @@ Section_Main_Functions:Toggle({
             if MacLib.Options["EnabledButton"].State and MacLib.Options["AutoColosseum_Difficulty_Dropdown"].Value then
                 --Colosseum Farm
             end
-
-			saveConfig()
 		end
+        saveConfig()
 	end,
 }, "AutoColosseum_Toggle")
 
