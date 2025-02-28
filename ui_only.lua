@@ -135,11 +135,23 @@ Section_Main_Functions:Toggle({ -- Main Auto-Farm Toggle
 		
 		if MacLib.Options["AutoFarm_Toggle"].State then
             print("af-toggle-1")
-			MacLib.Options["AutoDungeon_Toggle"]:UpdateState(false)
-			MacLib.Options["AutoColosseum_Toggle"]:UpdateState(false)
+
+            if not MacLib.Options["EnabledButton"].State then
+                MacLib.Options["AutoFarm_Toggle"]:UpdateState(false)
+                return
+            end
+            
+            if MacLib.Options["AutoColosseum_Toggle"].State then
+                MacLib.Options["AutoColosseum_Toggle"]:UpdateState(false)
+            end
+            
+            if MacLib.Options["AutoDungeon_Toggle"].State then
+                MacLib.Options["AutoDungeon_Toggle"]:UpdateState(false)
+            end
+
 			saveConfig()
 			if not MacLib.Options["EnabledButton"].State or (not (MacLib.Options["AutoFarm_Bot_Toggle"].State and MacLib.Options["mobs_Dropdown"].Value) and not MacLib.Options["AutoFarm_Macro_Toggle"].State) then
-				print("af-toggle-2")
+				print("af-toggle-3")
                 MacLib.Options["AutoFarm_Toggle"]:UpdateState(false)
 				saveConfig()
 				return
@@ -155,8 +167,20 @@ Section_Main_Functions:Toggle({ -- Main Auto-Dungeon Toggle
 
 		if MacLib.Options["AutoDungeon_Toggle"].State then
             print("ad-toggle-1")
-			MacLib.Options["AutoFarm_Toggle"]:UpdateState(false)
-			MacLib.Options["AutoColosseum_Toggle"]:UpdateState(false)
+
+            if not MacLib.Options["EnabledButton"].State then
+                MacLib.Options["AutoDungeon_Toggle"]:UpdateState(false)
+                return
+            end
+            
+            if MacLib.Options["AutoFarm_Toggle"].State then
+                MacLib.Options["AutoFarm_Toggle"]:UpdateState(false)
+            end
+            
+            if MacLib.Options["AutoColosseum_Toggle"].State then
+                MacLib.Options["AutoColosseum_Toggle"]:UpdateState(false)
+            end
+
 			saveConfig()
 		end
 	end,
@@ -169,8 +193,20 @@ Section_Main_Functions:Toggle({ -- Main Auto-Colosseum Toggle
 
 		if MacLib.Options["AutoColosseum_Toggle"].State then
             print("ac-toggle-1")
-			MacLib.Options["AutoDungeon_Toggle"]:UpdateState(false)
-			MacLib.Options["AutoFarm_Toggle"]:UpdateState(false)
+
+            if not MacLib.Options["EnabledButton"].State then
+                MacLib.Options["AutoColosseum_Toggle"]:UpdateState(false)
+                return
+            end
+            
+            if MacLib.Options["AutoFarm_Toggle"].State then
+                MacLib.Options["AutoFarm_Toggle"]:UpdateState(false)
+            end
+            
+            if MacLib.Options["AutoDungeon_Toggle"].State then
+                MacLib.Options["AutoDungeon_Toggle"]:UpdateState(false)
+            end
+
 			saveConfig()
 		end
 	end,
