@@ -70,11 +70,129 @@ local MacLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/BitsV3
 local player = game:GetService("Players").LocalPlayer
 local UIisLoaded = 0
 
+-- Anti-Cheat Disabled
+task.spawn(function()
+    local aold;
+        aold = hookfunction(getrawmetatable(game).__namecall,function(self,...)
+        local args = {...}
+        if getnamecallmethod() == "FireServer" and tostring(self) == "ReportRemoval" then
+            return
+        end
+        return aold(self,unpack(args))
+    end)
+end)
+task.spawn(function()
+    local aold;
+        aold = hookfunction(getrawmetatable(game).__namecall,function(self,...)
+        local args = {...}
+        if getnamecallmethod() == "FireServer" and tostring(self) == "UniversalAntiCheat" then
+            return
+        end
+        return aold(self,unpack(args))
+    end)
+end)
+task.spawn(function()
+    while task.wait(0.1) do
+        pcall(function()
+            player.PlayerScripts.ClientSide:Destroy()
+            player.PlayerScripts.Monitor:Destroy()
+            player.PlayerScripts.RemoteDetect:Destroy()
+            player.PlayerGui.Key:Destroy()
+            player.PlayerGui.AntiCheat:Destroy()
+        end)
+    end
+end)
+
 --- FUNCTIONS ---
 local function saveConfig()
     if MacLib.Options["Save_AutoSave_Toggle"].State then
 	    MacLib:SaveConfig("bitsv3rm")
     end
+end
+
+local function check()
+	if player.Character and player.Character:FindFirstChild("Humanoid") and player.Character:FindFirstChild("HumanoidRootPart") and player.Character.Humanoid.Health > 0 then
+		return true
+	else
+		onbattle = true
+		return false
+	end
+	onbattle = true
+	return false
+end
+
+local function nearest()
+	local Closest
+    local Distance = math.huge
+	for _,v in pairs(workspace.Collect:GetChildren()) do
+		
+		if check() and v:FindFirstChild("Part") and v.Part:FindFirstChild("InfoBar") and v.Part.InfoBar:FindFirstChild("DigimonName") and v:FindFirstChild("Health") and v.Health.Value > 0 and not player.PlayerGui.Loading.MainFrame.ImageLabel.Visible then
+			if MacLib.Options["AutoFarm_Bot_Toggle"].State then
+				local mobNames = table.concat(MacLib.Options["mobs_Dropdown"].Value or {}, "|")
+				local parsedName = string.match(v.Part.InfoBar.DigimonName.ContentText, "^(%S+)")
+				if mobNames and string.match(mobNames, parsedName) then
+					local newDistance = (v.Position - player.Character.HumanoidRootPart.Position).magnitude
+					if newDistance < Distance then
+						Closest = v
+						Distance = newDistance
+					end
+				end
+			elseif MacLib.Options["AutoFarm_Macro_Toggle"].State then
+				local newDistance = (v.Position - player.Character.HumanoidRootPart.Position).magnitude
+				if newDistance < MacLib.Options["AutoFarm_Range_Slider"]:GetValue() then
+					Closest = v
+					Distance = newDistance
+				end
+			end
+		end
+	end
+	return Closest
+end
+
+local function auto_Farm()
+	local Target = nearest()
+	if Target == nil then
+		return
+	end
+
+	local digimonName = Target.Part.InfoBar.DigimonName.ContentText
+	print("Target:", Target.Part.InfoBar.DigimonName.ContentText, Target.Health.Value)
+
+	if check() and MacLib.Options["AutoFarm_Bot_Toggle"].State then
+		repeat task.wait(0.1)
+			player.Character.Humanoid:MoveTo(Target.Position)
+		until not check() and player.PlayerGui.Loading.MainFrame.ImageLabel.Visible or not Target or Target == nil or not Target:FindFirstChild("Health") or Target.Health.Value <= 0 or not MacLib.Options["EnabledButton"].State or not MacLib.Options["AutoFarm_Toggle"].State or player:DistanceFromCharacter(Target.Position) < 33
+		player.Character.Humanoid:MoveTo(player.Character.HumanoidRootPart.Position)
+	end
+
+	repeat task.wait(0.1)
+		if Target or Target.Check or not player.PlayerGui.Loading.MainFrame.ImageLabel.Visible then
+			pcall(function() fireclickdetector(Target.Check) end)
+		end
+
+		task.spawn(function()
+			if player.PlayerGui.Server.SkillsDisplayDigimon:FindFirstChild("Skill4") then
+				player.PlayerGui.CombatClient.Skill4:InvokeServer(player.PlayerGui.Server.SkillsDisplayDigimon.Skill4.SkillDamage.Value, player.PlayerGui.Server.SkillsDisplayDigimon.Skill4.Cooldown.Value, tostring(math.random(100000, 999999))..tostring(tick()), false)
+			end
+		end)
+		task.spawn(function()
+			if player.PlayerGui.Server.SkillsDisplayDigimon:FindFirstChild("Skill3") then
+				player.PlayerGui.CombatClient.Skill3:InvokeServer(player.PlayerGui.Server.SkillsDisplayDigimon.Skill3.SkillDamage.Value, player.PlayerGui.Server.SkillsDisplayDigimon.Skill3.Cooldown.Value, tostring(math.random(100000, 999999))..tostring(tick()), false)
+			end
+		end)
+		task.spawn(function()
+			if player.PlayerGui.Server.SkillsDisplayDigimon:FindFirstChild("Skill2") then
+				player.PlayerGui.CombatClient.Skill2:InvokeServer(player.PlayerGui.Server.SkillsDisplayDigimon.Skill2.SkillDamage.Value, player.PlayerGui.Server.SkillsDisplayDigimon.Skill2.Cooldown.Value, tostring(math.random(100000, 999999))..tostring(tick()), false)
+			end
+		end)
+		task.spawn(function()
+			if player.PlayerGui.Server.SkillsDisplayDigimon:FindFirstChild("Skill1") then
+				player.PlayerGui.CombatClient.Skill1:InvokeServer(player.PlayerGui.Server.SkillsDisplayDigimon.Skill1.SkillDamage.Value, player.PlayerGui.Server.SkillsDisplayDigimon.Skill1.Cooldown.Value, tostring(math.random(100000, 999999))..tostring(tick()), false)
+			end
+		end)
+	until not check() and player.PlayerGui.Loading.MainFrame.ImageLabel.Visible or not Target or Target == nil or not Target:FindFirstChild("Health") or Target.Health.Value <= 0 or not MacLib.Options["EnabledButton"].State or not MacLib.Options["AutoFarm_Toggle"].State
+	
+	warn("Killed:", digimonName)
 end
 --- FUNCTIONS ---
 
@@ -148,7 +266,6 @@ Section_Main_Functions:Toggle({ -- Main Auto-Farm Toggle
             if MacLib.Options["AutoDungeon_Toggle"].State then
                 MacLib.Options["AutoDungeon_Toggle"]:UpdateState(false)
             end
-
 			
 			if not MacLib.Options["EnabledButton"].State or (not (MacLib.Options["AutoFarm_Bot_Toggle"].State and MacLib.Options["mobs_Dropdown"].Value) and not MacLib.Options["AutoFarm_Macro_Toggle"].State) then
 				print("af-toggle-3")
@@ -157,6 +274,10 @@ Section_Main_Functions:Toggle({ -- Main Auto-Farm Toggle
 				return
 			end
 
+            while MacLib.Options["EnabledButton"].State and ((MacLib.Options["AutoFarm_Bot_Toggle"].State and MacLib.Options["mobs_Dropdown"].Value) or MacLib.Options["AutoFarm_Macro_Toggle"].State) do
+                task.wait(0.1)
+                auto_Farm()
+            end
             saveConfig()
 		end
 	end,
@@ -183,6 +304,10 @@ Section_Main_Functions:Toggle({ -- Main Auto-Dungeon Toggle
                 MacLib.Options["AutoColosseum_Toggle"]:UpdateState(false)
             end
 
+            if MacLib.Options["EnabledButton"].State and MacLib.Options["AutoDungeon_Difficulty_Dropdown"].Value then
+                --Dungeon Farm
+            end
+
 			saveConfig()
 		end
 	end,
@@ -207,6 +332,10 @@ Section_Main_Functions:Toggle({
             
             if MacLib.Options["AutoDungeon_Toggle"].State then
                 MacLib.Options["AutoDungeon_Toggle"]:UpdateState(false)
+            end
+
+            if MacLib.Options["EnabledButton"].State and MacLib.Options["AutoColosseum_Difficulty_Dropdown"].Value then
+                --Colosseum Farm
             end
 
 			saveConfig()
@@ -242,9 +371,6 @@ Section_Main_Save:Button({
 			return 
 		end
 		writefile("bitsv3rm/settings/bitsv3rm.json", "")
-        task.wait(0.5)
-        MacLib:LoadConfig("bitsv3rm")
-        print("yo")
 	end,
 })
 
