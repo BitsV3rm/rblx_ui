@@ -449,7 +449,7 @@ Section_AutoColosseum_Reconnect:Slider({
 local Extra_Settings = Window:TabGroup() 
 local Tab_Extra = Extra_Settings:Tab({ 
     Name = "Extra",
-    Image = "rbxassetid://73899994101513"
+    Image = "rbxassetid://112165746496911"
 })
 local Section_Extra_OpenClones = Tab_Extra:Section({ --
     Side = "Left"
