@@ -407,7 +407,17 @@ Section_AutoColosseum_Difficulty:Dropdown({
 	Callback = function()
 	end,
 }, "AutoColosseum_Difficulty_Dropdown")
-Section_AutoColosseum_Difficulty:Slider({
+
+local Section_AutoColosseum_Regen = Tab_AutoColosseum:Section({ --
+    Side = "Left"
+})
+Section_AutoColosseum_Regen:Toggle({ 
+	Name = "Enable Regen HP",
+	Default = false,
+	Callback = function()
+	end,
+}, "AutoColosseum_Regen_Toggle")
+Section_AutoColosseum_Regen:Slider({
 	Name = "Regen HP",
 	Default = 50,
 	Minimum = 1,
