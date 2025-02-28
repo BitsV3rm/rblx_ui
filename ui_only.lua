@@ -149,12 +149,15 @@ Section_Main_Functions:Toggle({ -- Main Auto-Farm Toggle
                 MacLib.Options["AutoDungeon_Toggle"]:UpdateState(false)
             end
 
-			saveConfig()
+			
 			if not MacLib.Options["EnabledButton"].State or (not (MacLib.Options["AutoFarm_Bot_Toggle"].State and MacLib.Options["mobs_Dropdown"].Value) and not MacLib.Options["AutoFarm_Macro_Toggle"].State) then
 				print("af-toggle-3")
+                MacLib.Options["AutoFarm_Toggle"]:UpdateState(false)
 				saveConfig()
 				return
 			end
+
+            saveConfig()
 		end
 	end,
 }, "AutoFarm_Toggle")
