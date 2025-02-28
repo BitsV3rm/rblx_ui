@@ -72,7 +72,9 @@ local UIisLoaded = 0
 
 --- FUNCTIONS ---
 local function saveConfig()
-	MacLib:SaveConfig("bitsv3rm")
+    if MacLib.Options["Save_AutoSave_Toggle"].State then
+	    MacLib:SaveConfig("bitsv3rm")
+    end
 end
 --- FUNCTIONS ---
 
@@ -140,11 +142,6 @@ Section_Main_Functions:Toggle({ -- Main Auto-Farm Toggle
 				saveConfig()
 				return
 			end
-
-			while task.wait(0.1) and MacLib.Options["EnabledButton"].State and MacLib.Options["AutoFarm_Toggle"].State and (MacLib.Options["AutoFarm_Bot_Toggle"].State or MacLib.Options["AutoFarm_Macro_Toggle"].State) do
-				checkPlaceId(MacLib.Options["world_Dropdown"].Value)
-				auto_Farm()
-			end
 		end
 	end,
 }, "AutoFarm_Toggle")
@@ -178,12 +175,22 @@ Section_Main_Functions:Toggle({ -- Main Auto-Colosseum Toggle
 local Section_Main_Save = Tab_Main:Section({ -- Main Enable Section
     Side = "Right"
 })
+Section_Main_Save:Toggle({ -- Main Auto-Colosseum Toggle
+	Name = "Auto-Save Config",
+	Default = false,
+	Callback = function()
+		if UIisLoaded < 2 then 
+			return 
+		end
+	end,
+}, "Save_AutoSave_Toggle")
 Section_Main_Save:Button({
 	Name = "Save Config",
 	Callback = function()
 		MacLib:SaveConfig("bitsv3rm")
 	end,
 })
+
 
 local Group_Function = Window:TabGroup() -- Function Group
 local Tab_AutoFarm = Group_Function:Tab({ -- Function Auto-Farm Tab
