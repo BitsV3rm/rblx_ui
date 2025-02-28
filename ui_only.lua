@@ -271,9 +271,7 @@ Section_AutoFarm_Bot:Toggle({ -- Main Auto-Colosseum Toggle
 			if MacLib.Options["AutoFarm_Macro_Toggle"].State then
 				MacLib.Options["AutoFarm_Macro_Toggle"]:UpdateState(false)
 			end
-			if MacLib.Options["AutoFarm_Toggle"].State then
-				MacLib.Options["AutoFarm_Toggle"]:UpdateState(false)
-			end
+
 			saveConfig()
 		elseif not MacLib.Options["AutoFarm_Bot_Toggle"].State and not MacLib.Options["AutoFarm_Macro_Toggle"].State and MacLib.Options["AutoFarm_Toggle"].State then
 			MacLib.Options["AutoFarm_Toggle"]:UpdateState(false)
@@ -336,9 +334,7 @@ Section_AutoFarm_Macro:Toggle({ -- Main Auto-Colosseum Toggle
 			if MacLib.Options["AutoFarm_Bot_Toggle"].State then
 				MacLib.Options["AutoFarm_Bot_Toggle"]:UpdateState(false)
 			end
-			if MacLib.Options["AutoFarm_Toggle"].State then
-				MacLib.Options["AutoFarm_Toggle"]:UpdateState(false)
-			end
+
 			saveConfig()
 		elseif not MacLib.Options["AutoFarm_Bot_Toggle"].State and not MacLib.Options["AutoFarm_Macro_Toggle"].State and MacLib.Options["AutoFarm_Toggle"].State then
 			MacLib.Options["AutoFarm_Toggle"]:UpdateState(false)
@@ -369,7 +365,7 @@ Section_AutoDungeon_Difficulty:Dropdown({
 	Search = false,
 	Multi = false,
 	Required = true,
-	Options = {"Easy", "Hard"},
+	Options = {"Normal", "Hard"},
 	Default = 1,
 	Callback = function()
 	end,
@@ -387,18 +383,27 @@ Section_AutoColosseum_Difficulty:Dropdown({
 	Search = false,
 	Multi = false,
 	Required = true,
-	Options = {"Easy"},
+	Options = {"Easy", "Normal"},
 	Default = 1,
 	Callback = function()
 	end,
 }, "AutoColosseum_Difficulty_Dropdown")
+Section_AutoColosseum_Difficulty:Slider({
+	Name = "Regen HP",
+	Default = 50,
+	Minimum = 1,
+	Maximum = 100,
+	DisplayMethod = "Percent",
+	Callback = function()
+	end,
+}, "AutoColosseum_Regen_Dropdown")
 
 local Extra_Settings = Window:TabGroup() -- Settings Group
-local Extra_Settings = Extra_Settings:Tab({ -- Settings Settings Tab
+local Tab_Extra = Extra_Settings:Tab({ -- Settings Settings Tab
     Name = "Extra",
     Image = "rbxassetid://73899994101513"
 })
-local Section_Extra_OpenClones = Tab_AutoColosseum:Section({ --
+local Section_Extra_OpenClones = Tab_Extra:Section({ --
     Side = "Left"
 })
 Section_Extra_OpenClones:Dropdown({
@@ -407,11 +412,35 @@ Section_Extra_OpenClones:Dropdown({
 	Multi = false,
 	Required = true,
 	Options = {"Attack", "Defense", "Attack Speed", "Defense", "Critical", "Regeneration"},
-	Default = 1,
+	Default,
 	Callback = function()
 	end,
-}, "")
-
+}, "Extra_OpenClones_Dropdown")
+Section_Extra_OpenClones:Toggle({ -- Main Auto-Colosseum Toggle
+	Name = "Auto-Digiclone",
+	Default = false,
+	Callback = function()
+	end,
+}, "Extra_OpenClones_Toggle")
+local Section_Extra_OpenBoxes = Tab_Extra:Section({ --
+    Side = "Right"
+})
+Section_Extra_OpenBoxes:Dropdown({
+	Name = "Digiclone",
+	Search = false,
+	Multi = false,
+	Required = true,
+	Options = {},
+	Default,
+	Callback = function()
+	end,
+}, "Extra_OpenBoxes_Dropdown")
+Section_Extra_OpenBoxes:Toggle({ -- Main Auto-Colosseum Toggle
+	Name = "Auto-Open Boxes",
+	Default = false,
+	Callback = function()
+	end,
+}, "Extra_OpenBoxes_Toggle")
 
 local Group_Settings = Window:TabGroup() -- Settings Group
 local Tab_Settings = Group_Settings:Tab({ -- Settings Settings Tab
