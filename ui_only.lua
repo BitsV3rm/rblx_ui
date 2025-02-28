@@ -371,6 +371,25 @@ Section_AutoDungeon_Difficulty:Dropdown({
 	end,
 }, "AutoDungeon_Difficulty_Dropdown")
 
+local Section_AutoDungeon_Reconnect = Tab_AutoDungeon:Section({
+	Side = "Right"
+})
+Section_AutoDungeon_Reconnect:Toggle({ 
+	Name = "Enable Reconnect Timer",
+	Default = false,
+	Callback = function()
+	end,
+}, "AutoDungeon_Reconnect_Toggle")
+Section_AutoDungeon_Reconnect:Slider({
+	Name = "Webhook Timer",
+	Default = 300,
+	Minimum = 60,
+	Maximum = 3600,
+	DisplayMethod = "Value",
+	Callback = function()
+	end,
+}, "AutoDungeon_Reconnect_Slider")
+
 local Tab_AutoColosseum = Group_Function:Tab({ -- Function Auto-Dungeon Tab
     Name = "Auto-Colosseum",
     Image = "rbxassetid://76200096147550"
@@ -398,6 +417,25 @@ Section_AutoColosseum_Difficulty:Slider({
 	end,
 }, "AutoColosseum_Regen_Dropdown")
 
+local Section_AutoColosseum_Reconnect = Tab_AutoColosseum:Section({
+	Side = "Right"
+})
+Section_AutoColosseum_Reconnect:Toggle({ 
+	Name = "Enable Reconnect Timer",
+	Default = false,
+	Callback = function()
+	end,
+}, "AutoColosseum_Reconnect_Toggle")
+Section_AutoColosseum_Reconnect:Slider({
+	Name = "Webhook Timer",
+	Default = 300,
+	Minimum = 60,
+	Maximum = 3600,
+	DisplayMethod = "Value",
+	Callback = function()
+	end,
+}, "AutoColosseum_Reconnect_Slider")
+
 local Extra_Settings = Window:TabGroup() -- Settings Group
 local Tab_Extra = Extra_Settings:Tab({ -- Settings Settings Tab
     Name = "Extra",
@@ -407,7 +445,7 @@ local Section_Extra_OpenClones = Tab_Extra:Section({ --
     Side = "Left"
 })
 Section_Extra_OpenClones:Dropdown({
-	Name = "Digiclone",
+	Name = "DigiClone",
 	Search = false,
 	Multi = false,
 	Required = true,
@@ -426,7 +464,7 @@ local Section_Extra_OpenBoxes = Tab_Extra:Section({ --
     Side = "Right"
 })
 Section_Extra_OpenBoxes:Dropdown({
-	Name = "Digiclone",
+	Name = "Boxes",
 	Search = false,
 	Multi = false,
 	Required = true,
@@ -457,25 +495,6 @@ Section_Settings_Misc:Toggle({ -- Main Auto-Colosseum Toggle
 	Callback = function()
 	end,
 }, "Settings_CheckUpdate_Toggle")
-
-local Section_Settings_Reconnect = Tab_Settings:Section({
-	Side = "Left"
-})
-Section_Settings_Reconnect:Toggle({ -- Main Auto-Colosseum Toggle
-	Name = "Enable Reconnect Timer",
-	Default = false,
-	Callback = function()
-	end,
-}, "Settings_Reconnect_Toggle")
-Section_Settings_Reconnect:Slider({
-	Name = "Webhook Timer",
-	Default = 300,
-	Minimum = 60,
-	Maximum = 3600,
-	DisplayMethod = "Value",
-	Callback = function()
-	end,
-}, "Settings_Reconnect_Slider")
 
 local Section_Settings_Discord = Tab_Settings:Section({
 	Side = "Right"
