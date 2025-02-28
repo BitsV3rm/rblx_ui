@@ -459,7 +459,7 @@ Section_Extra_OpenClones:Dropdown({
 	Search = false,
 	Multi = false,
 	Required = true,
-	Options = {"Attack", "Defense", "Attack Speed", "Defense", "Critical", "Regeneration"},
+	Options = {"Attack", "Defense", "Attack Speed", "HP", "Critical", "Regeneration"},
 	Default,
 	Callback = function()
 	end,
