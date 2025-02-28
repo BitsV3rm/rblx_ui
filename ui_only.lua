@@ -1,3 +1,4 @@
+-- loadstring(game:HttpGet("https://raw.githubusercontent.com/BitsV3rm/rblx_ui/refs/heads/main/ui_only.lua"))()
 getgenv().Settings = {
 	Enemies = { 
         ["Silver Lake"] = {
@@ -106,6 +107,19 @@ Section_Main_Enable:Toggle({ -- Main Enable Toggle
 		if MacLib.Options["EnabledButton"].State then
 			saveConfig()
 		end
+
+        if not MacLib.Options["EnabledButton"].State and MacLib.Options["AutoFarm_Toggle"].State then
+            MacLib.Options["AutoFarm_Toggle"]:UpdateState(false)
+        end
+
+        if not MacLib.Options["EnabledButton"].State and MacLib.Options["AutoDungeon_Toggle"].State then
+            MacLib.Options["AutoDungeon_Toggle"]:UpdateState(false)
+        end
+
+        if not MacLib.Options["EnabledButton"].State and MacLib.Options["AutoColosseum_Toggle"].State then
+            MacLib.Options["AutoColosseum_Toggle"]:UpdateState(false)
+        end
+
 	end,
 }, "EnabledButton")
 local Section_Main_Functions = Tab_Main:Section({ -- Main Function Section
