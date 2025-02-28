@@ -242,8 +242,9 @@ Section_Main_Save:Button({
 			return 
 		end
 		writefile("bitsv3rm/settings/bitsv3rm.json", "")
-        task.wait(1)
+        task.wait(0.5)
         MacLib:LoadConfig("bitsv3rm")
+        print("yo")
 	end,
 })
 
