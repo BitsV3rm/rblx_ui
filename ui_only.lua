@@ -134,11 +134,13 @@ Section_Main_Functions:Toggle({ -- Main Auto-Farm Toggle
 		repeat task.wait() until UIisLoaded == 2
 		
 		if MacLib.Options["AutoFarm_Toggle"].State then
+            print("af-toggle-1")
 			MacLib.Options["AutoDungeon_Toggle"]:UpdateState(false)
 			MacLib.Options["AutoColosseum_Toggle"]:UpdateState(false)
 			saveConfig()
 			if not MacLib.Options["EnabledButton"].State or (not (MacLib.Options["AutoFarm_Bot_Toggle"].State and MacLib.Options["mobs_Dropdown"].Value) and not MacLib.Options["AutoFarm_Macro_Toggle"].State) then
-				MacLib.Options["AutoFarm_Toggle"]:UpdateState(false)
+				print("af-toggle-2")
+                MacLib.Options["AutoFarm_Toggle"]:UpdateState(false)
 				saveConfig()
 				return
 			end
@@ -152,6 +154,7 @@ Section_Main_Functions:Toggle({ -- Main Auto-Dungeon Toggle
 		repeat task.wait() until UIisLoaded == 2
 
 		if MacLib.Options["AutoDungeon_Toggle"].State then
+            print("ad-toggle-1")
 			MacLib.Options["AutoFarm_Toggle"]:UpdateState(false)
 			MacLib.Options["AutoColosseum_Toggle"]:UpdateState(false)
 			saveConfig()
@@ -165,6 +168,7 @@ Section_Main_Functions:Toggle({ -- Main Auto-Colosseum Toggle
 		repeat task.wait() until UIisLoaded == 2
 
 		if MacLib.Options["AutoColosseum_Toggle"].State then
+            print("ac-toggle-1")
 			MacLib.Options["AutoDungeon_Toggle"]:UpdateState(false)
 			MacLib.Options["AutoFarm_Toggle"]:UpdateState(false)
 			saveConfig()
@@ -187,9 +191,22 @@ Section_Main_Save:Toggle({ -- Main Auto-Colosseum Toggle
 Section_Main_Save:Button({
 	Name = "Save Config",
 	Callback = function()
+        if UIisLoaded < 2 then 
+			return 
+		end
 		MacLib:SaveConfig("bitsv3rm")
 	end,
 })
+Section_Main_Save:Button({
+	Name = "Clear Config",
+	Callback = function()
+        if UIisLoaded < 2 then 
+			return 
+		end
+		writefile("bitsv3rm/settings/bitsv3rm.json", "")
+	end,
+})
+
 
 
 local Group_Function = Window:TabGroup() -- Function Group
