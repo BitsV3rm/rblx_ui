@@ -242,6 +242,8 @@ Section_Main_Save:Button({
 			return 
 		end
 		writefile("bitsv3rm/settings/bitsv3rm.json", "")
+        task.wait(1)
+        MacLib:LoadConfig("bitsv3rm")
 	end,
 })
 
@@ -281,7 +283,7 @@ Section_AutoFarm_Bot:Toggle({
 }, "AutoFarm_Bot_Toggle")
 Section_AutoFarm_Bot:Dropdown({
 	Name = "World",
-	Search = false,
+	Search = true,
 	Multi = false,
 	Required = true,
 	Options = {"Silver Lake", "Gear Savannah", "Infinite Mountain"},
