@@ -198,7 +198,7 @@ local function checkPlace(instance)
 			return false
 		end
 	end
-	return 
+	return true
 end
 
 local function checkCount()
