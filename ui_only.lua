@@ -239,7 +239,7 @@ local function auto_Colosseum()
 	local onbattle
 
 	for i,v in pairs(workspace.Collect:GetChildren()) do
-		if (MacLib.Options["EnabledButton"].State and MacLib.Options["AutoDungeon_Toggle"].State) and check() and v and v:FindFirstChild("Check") and v:FindFirstChild("Part") and v.Part:FindFirstChild("InfoBar") and v.Part.InfoBar:FindFirstChild("DigimonName") and v:FindFirstChild("Health") and v.Health.Value > 0 and not player.PlayerGui.Loading.MainFrame.ImageLabel.Visible then
+		if (MacLib.Options["EnabledButton"].State and MacLib.Options["AutoColosseum_Toggle"].State) and check() and v and v:FindFirstChild("Check") and v:FindFirstChild("Part") and v.Part:FindFirstChild("InfoBar") and v.Part.InfoBar:FindFirstChild("DigimonName") and v:FindFirstChild("Health") and v.Health.Value > 0 and not player.PlayerGui.Loading.MainFrame.ImageLabel.Visible then
 			local indexNum = v.Name
 			local mobName = v.Part.InfoBar.DigimonName.ContentText
 			
@@ -267,14 +267,14 @@ local function auto_Colosseum()
 					end
 
 					task.wait(0.1)
-				until not MacLib.Options["EnabledButton"].State or not MacLib.Options["AutoDungeon_Toggle"].State or not check() or not v or not v:FindFirstChild("Check") or not v:FindFirstChild("Part") or not v.Part:FindFirstChild("InfoBar") or not v.Part.InfoBar:FindFirstChild("DigimonName") or not v:FindFirstChild("Health") or v.Health.Value <= 0 or player.PlayerGui.Loading.MainFrame.ImageLabel.Visible
+				until not MacLib.Options["EnabledButton"].State or not MacLib.Options["AutoColosseum_Toggle"].State or not check() or not v or not v:FindFirstChild("Check") or not v:FindFirstChild("Part") or not v.Part:FindFirstChild("InfoBar") or not v.Part.InfoBar:FindFirstChild("DigimonName") or not v:FindFirstChild("Health") or v.Health.Value <= 0 or player.PlayerGui.Loading.MainFrame.ImageLabel.Visible
 			end)
 			warn("Killed:", indexNum, mobName)
 			onbattle = false
 		end
 	end
 	
-	if (MacLib.Options["AutoDungeon_Toggle"].State and MacLib.Options["EnabledButton"].State) and check() and restart and not onbattle and checkCount() then
+	if (MacLib.Options["AutoColosseum_Toggle"].State and MacLib.Options["EnabledButton"].State) and check() and restart and not onbattle and checkCount() then
 		workspace.CurrentCamera.CameraSubject = player.Character
 		task.wait(1)
 		--messageWebhook()
@@ -409,7 +409,6 @@ Section_Main_Functions:Toggle({ -- Main Auto-Farm Toggle
 		repeat task.wait() until UIisLoaded == 2
 		
 		if MacLib.Options["AutoFarm_Toggle"].State then
-            print("af-toggle-1")
 
             if not MacLib.Options["EnabledButton"].State then
                 MacLib.Options["AutoFarm_Toggle"]:UpdateState(false)
@@ -425,7 +424,6 @@ Section_Main_Functions:Toggle({ -- Main Auto-Farm Toggle
             end
 			
 			if not MacLib.Options["EnabledButton"].State or (not (MacLib.Options["AutoFarm_Bot_Toggle"].State and MacLib.Options["mobs_Dropdown"].Value) and not MacLib.Options["AutoFarm_Macro_Toggle"].State) then
-				print("af-toggle-3")
                 MacLib.Options["AutoFarm_Toggle"]:UpdateState(false)
 				saveConfig()
 				return
@@ -448,7 +446,6 @@ Section_Main_Functions:Toggle({ -- Main Auto-Dungeon Toggle
 		repeat task.wait() until UIisLoaded == 2
 
 		if MacLib.Options["AutoDungeon_Toggle"].State then
-            print("ad-toggle-1")
 
             if not MacLib.Options["EnabledButton"].State then
                 MacLib.Options["AutoDungeon_Toggle"]:UpdateState(false)
@@ -483,7 +480,6 @@ Section_Main_Functions:Toggle({
 		repeat task.wait() until UIisLoaded == 2
 
 		if MacLib.Options["AutoColosseum_Toggle"].State then
-            print("ac-toggle-1")
 
             if not MacLib.Options["EnabledButton"].State then
                 MacLib.Options["AutoColosseum_Toggle"]:UpdateState(false)
