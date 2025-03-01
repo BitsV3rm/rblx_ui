@@ -149,6 +149,124 @@ local function nearest()
 	return Closest
 end
 
+
+local function checkPlace(instance)
+	if instance == "GoblinFort" then
+		if game.PlaceId ~= 133649758958568 and ((MacLib.Options["AutoDungeon_Difficulty_Dropdown"].Value == "Normal" and game.PlaceId ~= 76011326497329) or (MacLib.Options["AutoDungeon_Difficulty_Dropdown"].Value == "Hard" and game.PlaceId ~= 86392425558311)) then
+			game:GetService("TeleportService"):Teleport(133649758958568)
+			return false
+		elseif game.PlaceId ~= 76011326497329 and game.PlaceId == 133649758958568 and MacLib.Options["AutoDungeon_Difficulty_Dropdown"].Value == "Normal" then
+			if game:GetService("Players").LocalPlayer.CharInfoID.Bits.Value >= 25000 then
+				game:GetService("ReplicatedStorage").PartySystemRENormal:FireServer("createParty", "0", 1)
+				task.wait(2)
+				game:GetService("ReplicatedStorage").PartySystemRENormal:FireServer("startParty", "0")
+			else
+				player:Kick("Not Enough Money for Normal Difficulty")
+			end
+			return false
+		elseif game.PlaceId ~= 86392425558311 and game.PlaceId == 133649758958568 and MacLib.Options["AutoDungeon_Difficulty_Dropdown"].Value == "Hard" then
+			if game:GetService("Players").LocalPlayer.CharInfoID.Bits.Value >= 50000 then
+				game:GetService("ReplicatedStorage").PartySystemREHard:FireServer("createParty", "0", 1)
+				task.wait(2)
+				game:GetService("ReplicatedStorage").PartySystemREHard:FireServer("startParty", "0")
+			else
+				player:Kick("Not Enough Money for Hard Difficulty")
+			end
+			return false
+		end
+	elseif instance == "Colosseum" then
+		if game.PlaceId ~= 114035449487554 and ((MacLib.Options["AutoColosseum_Difficulty_Dropdown"].Value == "Easy" and game.PlaceId ~= 80299472659017) or (MacLib.Options["AutoColosseum_Difficulty_Dropdown"].Value == "Normal" and game.PlaceId ~= 110577167676254)) then
+			game:GetService("TeleportService"):Teleport(114035449487554)
+			return false
+		elseif game.PlaceId ~= 80299472659017 and game.PlaceId == 114035449487554 and MacLib.Options["AutoColosseum_Difficulty_Dropdown"].Value == "Easy" then
+			if game:GetService("Players").LocalPlayer.CharInfoID.Bits.Value >= 30000 then
+				game:GetService("ReplicatedStorage").PartySystemRE:FireServer("createParty", "0", 1)
+				task.wait(2)
+				game:GetService("ReplicatedStorage").PartySystemRE:FireServer("startParty", "0")
+			else
+				player:Kick("Not Enough Money for Easy Difficulty")
+			end
+			return false
+		elseif game.PlaceId ~= 110577167676254 and game.PlaceId == 114035449487554 and MacLib.Options["AutoColosseum_Difficulty_Dropdown"].Value == "Normal" then
+			if game:GetService("Players").LocalPlayer.CharInfoID.Bits.Value >= 60000 then
+				game:GetService("ReplicatedStorage").PartySystemNormalRE:FireServer("createParty", "0", 1)
+				task.wait(2)
+				game:GetService("ReplicatedStorage").PartySystemNormalRE:FireServer("startParty", "0")
+			else
+				player:Kick("Not Enough Money for Normal Difficulty")
+			end
+			return false
+		end
+	end
+	return 
+end
+
+local function checkCount()
+	if game:GetService("Workspace").Collect then 
+		local path = game:GetService("Workspace").Collect:GetChildren()
+		if #path <= 0 then
+			return true
+		end
+	end
+	return false
+end
+
+local function auto_Dungeon()
+	local restart
+	local onbattle
+
+	for i,v in pairs(workspace.Collect:GetChildren()) do
+		if getgenv().Settings.Enabled and check() and v and v:FindFirstChild("Check") and v:FindFirstChild("Part") and v.Part:FindFirstChild("InfoBar") and v.Part.InfoBar:FindFirstChild("DigimonName") and v:FindFirstChild("Health") and v.Health.Value > 0 and not player.PlayerGui.Loading.MainFrame.ImageLabel.Visible then
+			local indexNum = v.Name
+			local mobName = v.Part.InfoBar.DigimonName.ContentText
+			
+			onbattle = true
+			print("Target:", v.Name, v.Part.InfoBar.DigimonName.ContentText, v.Health.Value)
+			pcall(function()
+				repeat 
+					if player.Character.HumanoidRootPart:FindFirstChild("pet1") then
+						workspace.CurrentCamera.CameraSubject = player.Character.HumanoidRootPart.pet1.Pet
+					end
+					if check() or not player.PlayerGui.Loading.MainFrame.ImageLabel.Visible then
+						fireclickdetector(v.Check)
+					end
+					task.spawn(function()
+						if player.PlayerGui.Server.SkillsDisplayDigimon:FindFirstChild("Skill3") then
+							player.PlayerGui.CombatClient.Skill3:InvokeServer(player.PlayerGui.Server.SkillsDisplayDigimon.Skill3.SkillDamage.Value, player.PlayerGui.Server.SkillsDisplayDigimon.Skill3.Cooldown.Value, tostring(math.random(100000, 999999))..tostring(tick()), false)
+						end
+					end)
+					task.spawn(function()
+						if player.PlayerGui.Server.SkillsDisplayDigimon:FindFirstChild("Skill2") then
+							player.PlayerGui.CombatClient.Skill2:InvokeServer(player.PlayerGui.Server.SkillsDisplayDigimon.Skill2.SkillDamage.Value, player.PlayerGui.Server.SkillsDisplayDigimon.Skill2.Cooldown.Value, tostring(math.random(100000, 999999))..tostring(tick()), false)
+						end
+					end)
+					task.spawn(function()
+						if player.PlayerGui.Server.SkillsDisplayDigimon:FindFirstChild("Skill1") then
+							player.PlayerGui.CombatClient.Skill1:InvokeServer(player.PlayerGui.Server.SkillsDisplayDigimon.Skill1.SkillDamage.Value, player.PlayerGui.Server.SkillsDisplayDigimon.Skill1.Cooldown.Value, tostring(math.random(100000, 999999))..tostring(tick()), false)
+						end
+					end)
+
+					if v.Part.InfoBar:FindFirstChild("BossTitle") and string.match(v.Part.InfoBar.BossTitle.Text, "The Chieftain") then
+						restart = true
+					end
+
+					task.wait(0.1)
+				until not v or not v:FindFirstChild("Check") or not v:FindFirstChild("Health") or v.Health.Value <= 0 or not check() or player.PlayerGui.Loading.MainFrame.ImageLabel.Visible or not MacLib.Options["EnabledButton"].State or not MacLib.Options["AutoDungeon_Toggle"].State
+			end)
+			warn("Killed:", indexNum, mobName)
+			onbattle = false
+		end
+	end
+	workspace.CurrentCamera.CameraSubject = player.Character
+	
+	if check() and restart and not onbattle and checkCount() then
+		task.wait(1)
+		--messageWebhook()
+		game:GetService("TeleportService"):Teleport(game.PlaceId)
+		return
+	end
+end
+
 local function auto_Farm()
 	local Target = nearest()
 	if Target == nil then
@@ -307,7 +425,11 @@ Section_Main_Functions:Toggle({ -- Main Auto-Dungeon Toggle
             end
 
             while MacLib.Options["AutoDungeon_Toggle"].State and MacLib.Options["EnabledButton"].State and MacLib.Options["AutoDungeon_Difficulty_Dropdown"].Value do
-                --Dungeon Farm
+                if not checkPlace("GoblinFort") then
+					return
+				end
+
+				auto_Dungeon()
 
 				task.wait(0.1)
             end
@@ -364,9 +486,7 @@ Section_Main_Save:Button({
         if UIisLoaded < 2 then 
 			return 
 		end
-		print(MacLib.Options["EnabledButton"].State)
-		MacLib.Options["EnabledButton"].State = false
-		print(MacLib.Options["EnabledButton"].State)
+		MacLib:SaveConfig("bitsv3rm")
 	end,
 })
 Section_Main_Save:Button({
