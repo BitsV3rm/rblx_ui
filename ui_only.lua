@@ -165,33 +165,34 @@ local function auto_Farm()
 		player.Character.Humanoid:MoveTo(player.Character.HumanoidRootPart.Position)
 	end
 
-	repeat task.wait(0.1)
-		if Target or Target.Check or not player.PlayerGui.Loading.MainFrame.ImageLabel.Visible then
-			pcall(function() fireclickdetector(Target.Check) end)
-		end
+    pcall(function()
+        repeat task.wait(0.1)
+            if Target or Target.Check or not player.PlayerGui.Loading.MainFrame.ImageLabel.Visible then
+                fireclickdetector(Target.Check)
+            end
 
-		task.spawn(function()
-			if player.PlayerGui.Server.SkillsDisplayDigimon:FindFirstChild("Skill4") then
-				player.PlayerGui.CombatClient.Skill4:InvokeServer(player.PlayerGui.Server.SkillsDisplayDigimon.Skill4.SkillDamage.Value, player.PlayerGui.Server.SkillsDisplayDigimon.Skill4.Cooldown.Value, tostring(math.random(100000, 999999))..tostring(tick()), false)
-			end
-		end)
-		task.spawn(function()
-			if player.PlayerGui.Server.SkillsDisplayDigimon:FindFirstChild("Skill3") then
-				player.PlayerGui.CombatClient.Skill3:InvokeServer(player.PlayerGui.Server.SkillsDisplayDigimon.Skill3.SkillDamage.Value, player.PlayerGui.Server.SkillsDisplayDigimon.Skill3.Cooldown.Value, tostring(math.random(100000, 999999))..tostring(tick()), false)
-			end
-		end)
-		task.spawn(function()
-			if player.PlayerGui.Server.SkillsDisplayDigimon:FindFirstChild("Skill2") then
-				player.PlayerGui.CombatClient.Skill2:InvokeServer(player.PlayerGui.Server.SkillsDisplayDigimon.Skill2.SkillDamage.Value, player.PlayerGui.Server.SkillsDisplayDigimon.Skill2.Cooldown.Value, tostring(math.random(100000, 999999))..tostring(tick()), false)
-			end
-		end)
-		task.spawn(function()
-			if player.PlayerGui.Server.SkillsDisplayDigimon:FindFirstChild("Skill1") then
-				player.PlayerGui.CombatClient.Skill1:InvokeServer(player.PlayerGui.Server.SkillsDisplayDigimon.Skill1.SkillDamage.Value, player.PlayerGui.Server.SkillsDisplayDigimon.Skill1.Cooldown.Value, tostring(math.random(100000, 999999))..tostring(tick()), false)
-			end
-		end)
-	until not check() and player.PlayerGui.Loading.MainFrame.ImageLabel.Visible or not Target or Target == nil or not Target:FindFirstChild("Health") or Target.Health.Value <= 0 or not MacLib.Options["EnabledButton"].State or not MacLib.Options["AutoFarm_Toggle"].State
-	
+            task.spawn(function()
+                if player.PlayerGui.Server.SkillsDisplayDigimon:FindFirstChild("Skill4") then
+                    player.PlayerGui.CombatClient.Skill4:InvokeServer(player.PlayerGui.Server.SkillsDisplayDigimon.Skill4.SkillDamage.Value, player.PlayerGui.Server.SkillsDisplayDigimon.Skill4.Cooldown.Value, tostring(math.random(100000, 999999))..tostring(tick()), false)
+                end
+            end)
+            task.spawn(function()
+                if player.PlayerGui.Server.SkillsDisplayDigimon:FindFirstChild("Skill3") then
+                    player.PlayerGui.CombatClient.Skill3:InvokeServer(player.PlayerGui.Server.SkillsDisplayDigimon.Skill3.SkillDamage.Value, player.PlayerGui.Server.SkillsDisplayDigimon.Skill3.Cooldown.Value, tostring(math.random(100000, 999999))..tostring(tick()), false)
+                end
+            end)
+            task.spawn(function()
+                if player.PlayerGui.Server.SkillsDisplayDigimon:FindFirstChild("Skill2") then
+                    player.PlayerGui.CombatClient.Skill2:InvokeServer(player.PlayerGui.Server.SkillsDisplayDigimon.Skill2.SkillDamage.Value, player.PlayerGui.Server.SkillsDisplayDigimon.Skill2.Cooldown.Value, tostring(math.random(100000, 999999))..tostring(tick()), false)
+                end
+            end)
+            task.spawn(function()
+                if player.PlayerGui.Server.SkillsDisplayDigimon:FindFirstChild("Skill1") then
+                    player.PlayerGui.CombatClient.Skill1:InvokeServer(player.PlayerGui.Server.SkillsDisplayDigimon.Skill1.SkillDamage.Value, player.PlayerGui.Server.SkillsDisplayDigimon.Skill1.Cooldown.Value, tostring(math.random(100000, 999999))..tostring(tick()), false)
+                end
+            end)
+        until not check() and player.PlayerGui.Loading.MainFrame.ImageLabel.Visible or not Target or Target == nil or not Target:FindFirstChild("Health") or Target.Health.Value <= 0 or not MacLib.Options["EnabledButton"].State or not MacLib.Options["AutoFarm_Toggle"].State
+    end)
 	warn("Killed:", digimonName)
 end
 --- FUNCTIONS ---
@@ -274,9 +275,10 @@ Section_Main_Functions:Toggle({ -- Main Auto-Farm Toggle
 				return
 			end
 
-            while MacLib.Options["EnabledButton"].State and ((MacLib.Options["AutoFarm_Bot_Toggle"].State and MacLib.Options["mobs_Dropdown"].Value) or MacLib.Options["AutoFarm_Macro_Toggle"].State) do
-                task.wait(0.1)
+            while MacLib.Options["AutoFarm_Toggle"].State and MacLib.Options["EnabledButton"].State and ((MacLib.Options["AutoFarm_Bot_Toggle"].State and MacLib.Options["mobs_Dropdown"].Value) or MacLib.Options["AutoFarm_Macro_Toggle"].State) do
                 auto_Farm()
+
+				task.wait(0.1)
             end
 		end
         saveConfig()
@@ -304,8 +306,10 @@ Section_Main_Functions:Toggle({ -- Main Auto-Dungeon Toggle
                 MacLib.Options["AutoColosseum_Toggle"]:UpdateState(false)
             end
 
-            if MacLib.Options["EnabledButton"].State and MacLib.Options["AutoDungeon_Difficulty_Dropdown"].Value then
+            while MacLib.Options["AutoDungeon_Toggle"].State and MacLib.Options["EnabledButton"].State and MacLib.Options["AutoDungeon_Difficulty_Dropdown"].Value do
                 --Dungeon Farm
+
+				task.wait(0.1)
             end
 		end
         saveConfig()
@@ -334,7 +338,7 @@ Section_Main_Functions:Toggle({
                 MacLib.Options["AutoDungeon_Toggle"]:UpdateState(false)
             end
 
-            if MacLib.Options["EnabledButton"].State and MacLib.Options["AutoColosseum_Difficulty_Dropdown"].Value then
+            while MacLib.Options["AutoColosseum_Toggle"].State and MacLib.Options["EnabledButton"].State and MacLib.Options["AutoColosseum_Difficulty_Dropdown"].Value do
                 --Colosseum Farm
             end
 		end
@@ -360,7 +364,9 @@ Section_Main_Save:Button({
         if UIisLoaded < 2 then 
 			return 
 		end
-		MacLib:SaveConfig("bitsv3rm")
+		print(MacLib.Options["EnabledButton"].State)
+		MacLib.Options["EnabledButton"].State = false
+		print(MacLib.Options["EnabledButton"].State)
 	end,
 })
 Section_Main_Save:Button({
