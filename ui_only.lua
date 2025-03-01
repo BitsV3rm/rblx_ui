@@ -514,6 +514,7 @@ local function auto_Farm()
                 fireclickdetector(Target.Check)
             end
 
+			spamSkill()
             
         until not check() and player.PlayerGui.Loading.MainFrame.ImageLabel.Visible or not Target or Target == nil or not Target:FindFirstChild("Health") or Target.Health.Value <= 0 or not MacLib.Options["EnabledButton"].State or not MacLib.Options["AutoFarm_Toggle"].State
     end)
