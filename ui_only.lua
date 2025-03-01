@@ -216,7 +216,7 @@ local function auto_Dungeon()
 	local onbattle
 
 	for i,v in pairs(workspace.Collect:GetChildren()) do
-		if getgenv().Settings.Enabled and check() and v and v:FindFirstChild("Check") and v:FindFirstChild("Part") and v.Part:FindFirstChild("InfoBar") and v.Part.InfoBar:FindFirstChild("DigimonName") and v:FindFirstChild("Health") and v.Health.Value > 0 and not player.PlayerGui.Loading.MainFrame.ImageLabel.Visible then
+		if (MacLib.Options["AutoDungeon_Toggle"].State and MacLib.Options["EnabledButton"].State) and check() and v and v:FindFirstChild("Check") and v:FindFirstChild("Part") and v.Part:FindFirstChild("InfoBar") and v.Part.InfoBar:FindFirstChild("DigimonName") and v:FindFirstChild("Health") and v.Health.Value > 0 and not player.PlayerGui.Loading.MainFrame.ImageLabel.Visible then
 			local indexNum = v.Name
 			local mobName = v.Part.InfoBar.DigimonName.ContentText
 			
@@ -413,7 +413,6 @@ Section_Main_Functions:Toggle({ -- Main Auto-Dungeon Toggle
 
             if not MacLib.Options["EnabledButton"].State then
                 MacLib.Options["AutoDungeon_Toggle"]:UpdateState(false)
-				print("returned 1")
                 return
             end
             
@@ -424,14 +423,11 @@ Section_Main_Functions:Toggle({ -- Main Auto-Dungeon Toggle
             if MacLib.Options["AutoColosseum_Toggle"].State then
                 MacLib.Options["AutoColosseum_Toggle"]:UpdateState(false)
             end
-			print(MacLib.Options["AutoDungeon_Toggle"].State, MacLib.Options["EnabledButton"].State, MacLib.Options["AutoDungeon_Difficulty_Dropdown"].Value)
-            while MacLib.Options["AutoDungeon_Toggle"].State and MacLib.Options["EnabledButton"].State and MacLib.Options["AutoDungeon_Difficulty_Dropdown"].Value do
-				print("1")
+
+			while MacLib.Options["AutoDungeon_Toggle"].State and MacLib.Options["EnabledButton"].State and MacLib.Options["AutoDungeon_Difficulty_Dropdown"].Value do
                 if not checkPlace("GoblinFort") then
-					print("returned 2")
 					return
 				end
-				print("2")
 				auto_Dungeon()
 
 				task.wait(0.1)
