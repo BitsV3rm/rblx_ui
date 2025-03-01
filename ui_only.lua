@@ -425,10 +425,12 @@ Section_Main_Functions:Toggle({ -- Main Auto-Dungeon Toggle
             end
 
             while MacLib.Options["AutoDungeon_Toggle"].State and MacLib.Options["EnabledButton"].State and MacLib.Options["AutoDungeon_Difficulty_Dropdown"].Value do
+				print('1')
                 if not checkPlace("GoblinFort") then
+					print('returned')
 					return
 				end
-
+				print('2')
 				auto_Dungeon()
 
 				task.wait(0.1)
