@@ -65,10 +65,7 @@ getgenv().Settings = {
     }
 }
 
-
-local MacLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/BitsV3rm/rblx_ui/refs/heads/main/maclib.txt"))()
-local player = game:GetService("Players").LocalPlayer
-local UIisLoaded = 0
+repeat task.wait() until game:IsLoaded()
 
 -- Anti-Cheat Disabled
 task.spawn(function()
@@ -94,14 +91,185 @@ end)
 task.spawn(function()
     while task.wait(0.1) do
         pcall(function()
-            player.PlayerScripts.ClientSide:Destroy()
-            player.PlayerScripts.Monitor:Destroy()
-            player.PlayerScripts.RemoteDetect:Destroy()
-            player.PlayerGui.Key:Destroy()
-            player.PlayerGui.AntiCheat:Destroy()
+            game:GetService("Players").LocalPlayer.PlayerScripts.ClientSide:Destroy()
+		end)
+		pcall(function()
+            game:GetService("Players").LocalPlayer.PlayerScripts.Monitor:Destroy()
+		end)
+		pcall(function()
+            game:GetService("Players").LocalPlayer.PlayerScripts.RemoteDetect:Destroy()
+		end)
+		pcall(function()
+            game:GetService("Players").LocalPlayer.PlayerGui.Key:Destroy()
+		end)
+		pcall(function()
+            game:GetService("Players").LocalPlayer.PlayerGui.AntiCheat:Destroy()
         end)
     end
 end)
+
+local MacLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/BitsV3rm/rblx_ui/refs/heads/main/maclib.txt"))()
+local player = game:GetService("Players").LocalPlayer
+local UIisLoaded = 0
+
+--- Message Webhook FUNCTIONS ---
+local startTime = os.time()
+local before_Boxes = {}
+	for _, item in ipairs(player.Items:GetChildren()) do
+		if item:IsA("IntValue") then
+			before_Boxes[item.Name] = item.Value
+		end
+	end
+local before_Bits = player.CharInfoID.Bits.Value
+local before_DigiLvl = player.PetsLevel[player.CharInfoID.Digimon.Value].Value
+local before_TamerLvl = player.CharInfoID.Level.Value
+
+local function formatCurrency(n)
+	local tera = math.floor(n / 1e6) -- Millions
+	local remainder = n % 1e6
+	local mega = math.floor(remainder / 1e3) -- Thousands
+	local bits = remainder % 1e3 -- Ones, Tens, Hundreds
+
+	local formatted = ""
+	if tera > 0 then formatted = formatted .. string.format("%d T ", tera) end
+	if mega > 0 then formatted = formatted .. string.format("%d M ", mega) end
+	if bits > 0 then formatted = formatted .. string.format("%d B", bits) end
+	return formatted:match("^%s*(.-)%s*$") -- Trim whitespace
+end
+
+local function calculateDrops()
+	local after_Boxes = {}
+	local differences = {}
+
+	-- Check item changes
+	for _, item in ipairs(player.Items:GetChildren()) do
+		if item:IsA("IntValue") then
+			after_Boxes[item.Name] = item.Value
+			local diff = item.Value - (before_Boxes[item.Name] or 0)
+			if diff > 0 then
+				differences[item.Name] = string.format("+ %d %s (Total: %d)", diff, item.Name, item.Value)
+			end
+		end
+	end
+
+	-- Check Bits separately
+	local after_Bits = player.CharInfoID.Bits.Value
+	local bits_diff = after_Bits - before_Bits
+	if bits_diff > 0 then
+		differences["Bits"] = "+ " .. formatCurrency(bits_diff) -- Only formatted number
+	end
+
+	-- Check DigiLvl
+	local after_DigiLvl = player.PetsLevel[digimonEquipped].Value
+	local digiLvl_diff = after_DigiLvl - before_DigiLvl
+	if digiLvl_diff > 0 then
+		differences["DigiLvl"] = string.format("+ %d Digimon Level", digiLvl_diff)
+	end
+
+	-- Check TamerLvl
+	local after_TamerLvl = player.CharInfoID.Level.Value
+	local tamerLvl_diff = after_TamerLvl - before_TamerLvl
+	if tamerLvl_diff > 0 then
+		differences["TamerLvl"] = string.format("+ %d Tamer Level", tamerLvl_diff)
+	end
+
+	return differences
+end
+
+local function formatDrops(drops)
+	local result = ""
+
+	for name, change in pairs(drops) do
+		result = result .. string.format("%s\n", change)
+	end
+
+	return result ~= "" and result or "No drops"
+end
+
+local function refreshStats()
+	before_Boxes = {}
+	for _, item in ipairs(player.Items:GetChildren()) do
+		if item:IsA("IntValue") then
+			before_Boxes[item.Name] = item.Value
+		end
+	end
+	before_Bits = player.CharInfoID.Bits.Value
+	before_DigiLvl = player.PetsLevel[digimonEquipped].Value
+	before_TamerLvl = player.CharInfoID.Level.Value
+end
+
+local function messageWebhook()
+	local digimonName = player.PlayerGui.Server.DigimonInfo.DigimonUse.NameDigimon.Text:sub(7)
+	local digimonStage = player.PlayerGui.Server.DigimonInfo.DigimonUse.StageDigimon.Text:sub(8)
+	local digimonLvl = player.PlayerGui.Server.UIInfos.UIDigimon.Frame.TextLabel.Text
+	local ruby = player.PlayerGui.TamerEquipament.Inventory.Rubys.TextLabel.Text
+	local bits = player.PlayerGui.TamerEquipament.Inventory.Bits.Text:gsub("<font color='.-'>(.-)</font>", "%1")
+	local drops = formatDrops(calculateDrops())
+	refreshStats()
+
+	local http = game:GetService("HttpService")
+
+	local data = {
+		["embeds"] = {{
+			["thumbnail"] = {
+				["url"] = "https://tr.rbxcdn.com/180DAY-fb0da5970ddb93e8e293fa4a15e0dedc/150/150/Image/Webp/noFilter"
+			},
+			["title"] = "**Digimon: Reboot World**",
+			["fields"] = {{
+				["name"] = "**User:**",
+				["value"] = "||".. player.Name .."||",
+				["inline"] = true
+			}, {
+				["name"] = "**Place ID:**",
+				["value"] = game.PlaceId,
+				["inline"] = true
+			}, {
+				["name"] = "**Job ID:**",
+				["value"] = game.JobId,
+				["inline"] = true
+			}, {
+				["name"] = "**Digimon Name:**",
+				["value"] = digimonName,
+				["inline"] = true
+			}, {
+				["name"] = "**Digimon Level:**",
+				["value"] = digimonLvl,
+				["inline"] = true
+			}, {
+				["name"] = "**Digimon Stage:**",
+				["value"] = digimonStage,
+				["inline"] = true
+			}, {
+				["name"] = "**Ruby:**",
+				["value"] = ruby,
+				["inline"] = true
+			}, {
+				["name"] = "**Bits:**",
+				["value"] = bits,
+				["inline"] = true
+			}, {
+				["name"] = "**".. getgenv().Settings.Location ..":**",
+				["value"] = drops,
+				["inline"] = false
+			}},
+			["color"] = tonumber(0xFFFFFF) 
+		}}
+	}
+
+	local jsonMessage = http:JSONEncode(data)
+	local headers = {
+		["Content-Type"] = "application/json"
+	}
+	local success, response = pcall(function()
+		return request({
+			Url = getgenv().Settings.Setting.Webhook,
+			Body = jsonMessage,
+			Method = "POST",
+			Headers = headers
+		})
+	end)
+end
+--- Message Webhook FUNCTIONS ---
 
 --- FUNCTIONS ---
 local function saveConfig()
@@ -259,7 +427,7 @@ local function auto_Colosseum()
 							task.spawn(function()
 								game:GetService("Players").LocalPlayer.PlayerGui.CombatClient.CallDigimon:InvokeServer(tostring(math.random(100000, 999999)), false)
 							end)
-						until not MacLib.Options["AutoColosseum_Regen_Toggle"].State or not check() or not player.Character.HumanoidRootPart:FindFirstChild("pet1") or (player.Character.HumanoidRootPart.pet1.Stats.Health.Value >= player.Character.HumanoidRootPart.pet1.Stats.HealthMax.Value) or not v or not v:FindFirstChild("Part") or not v:FindFirstChild("Check") or not v:FindFirstChild("Health") or v.Health.Value <= 0 or player.PlayerGui.Loading.MainFrame.ImageLabel.Visible or not MacLib.Options["EnabledButton"].State or not MacLib.Options["AutoDungeon_Toggle"].State
+						until not check() or not player.Character.HumanoidRootPart:FindFirstChild("pet1") or (player.Character.HumanoidRootPart.pet1.Stats.Health.Value >= player.Character.HumanoidRootPart.pet1.Stats.HealthMax.Value) or not v or not v:FindFirstChild("Part") or not v:FindFirstChild("Check") or not v:FindFirstChild("Health") or v.Health.Value <= 0 or player.PlayerGui.Loading.MainFrame.ImageLabel.Visible or not MacLib.Options["EnabledButton"].State or not MacLib.Options["AutoColosseum_Regen_Toggle"].State
 					end
 
 					if v and v:FindFirstChild("Part") and v.Part:FindFirstChild("InfoBar") and v.Part.InfoBar:FindFirstChild("DigimonName") and ((MacLib.Options["AutoColosseum_Difficulty_Dropdown"].Value == "Easy" and string.match(v.Part.InfoBar.DigimonName.ContentText, "Dorbickmon")) or (MacLib.Options["AutoColosseum_Difficulty_Dropdown"].Value == "Normal" and string.match(v.Part.InfoBar.DigimonName.ContentText, "MadLeomon"))) then
@@ -620,7 +788,7 @@ Section_AutoFarm_Bot:Dropdown({
 }, "mobs_Dropdown")
 
 local Section_AutoFarm_Macro = Tab_AutoFarm:Section({ --
-    Side = "Right"
+    Side = "Left"
 })
 Section_AutoFarm_Macro:Header({
 	Text = "Macro Mode"
@@ -655,6 +823,25 @@ Section_AutoFarm_Macro:Slider({
 		repeat task.wait() until UIisLoaded == 2
 	end,
 }, "AutoFarm_Range_Slider")
+local Section_AutoFarm_WebhookTimer = Tab_AutoFarm:Section({
+	Side = "Right"
+})
+Section_AutoFarm_WebhookTimer:Toggle({ 
+	Name = "Enable Webhook Timer",
+	Default = false,
+	Callback = function()
+	end,
+}, "Settings_EnableDiscord_Toggle")
+Section_AutoFarm_WebhookTimer:Slider({
+	Name = "Webhook Timer",
+	Default = 60,
+	Minimum = 60,
+	Maximum = 3600,
+	DisplayMethod = "Value",
+	Callback = function()
+	end,
+}, "AutoFarm_WebhookTimer_Slider")
+
 
 local Tab_AutoDungeon = Group_Function:Tab({ -- Function Auto-Dungeon Tab
     Name = "Auto-Dungeon",
@@ -824,15 +1011,6 @@ Section_Settings_Discord:Toggle({
 	Callback = function()
 	end,
 }, "Settings_EnableDiscord_Toggle")
-Section_Settings_Discord:Slider({
-	Name = "Webhook Timer",
-	Default = 60,
-	Minimum = 60,
-	Maximum = 3600,
-	DisplayMethod = "Value",
-	Callback = function()
-	end,
-}, "Settings_WebhookTimer_Slider")
 Section_Settings_Discord:Input({
 	Name = "Discord Webhook",
 	Placeholder = "Webhook URL",
