@@ -1,4 +1,4 @@
--- loadstring(game:HttpGet("https://raw.githubusercontent.com/BitsV3rm/rblx_ui/refs/heads/main/ui_only.lua"))()
+-- loadstring(game:HttpGet("https://raw.githubusercontent.com/BitsV3rm/rblx_ui/refs/heads/main/ui_only.lua", true))()
 getgenv().Settings = {
 	Enemies = { 
         ["Silver Lake"] = {
@@ -211,6 +211,79 @@ local function checkCount()
 	return false
 end
 
+local function spamSkill()
+	task.spawn(function()
+		if player.PlayerGui.Server.SkillsDisplayDigimon:FindFirstChild("Skill4") then
+			player.PlayerGui.CombatClient.Skill4:InvokeServer(player.PlayerGui.Server.SkillsDisplayDigimon.Skill4.SkillDamage.Value, player.PlayerGui.Server.SkillsDisplayDigimon.Skill4.Cooldown.Value, tostring(math.random(100000, 999999))..tostring(tick()), false)
+		end
+	end)
+	task.spawn(function()
+		if player.PlayerGui.Server.SkillsDisplayDigimon:FindFirstChild("Skill3") then
+			player.PlayerGui.CombatClient.Skill3:InvokeServer(player.PlayerGui.Server.SkillsDisplayDigimon.Skill3.SkillDamage.Value, player.PlayerGui.Server.SkillsDisplayDigimon.Skill3.Cooldown.Value, tostring(math.random(100000, 999999))..tostring(tick()), false)
+		end
+	end)
+	task.spawn(function()
+		if player.PlayerGui.Server.SkillsDisplayDigimon:FindFirstChild("Skill2") then
+			player.PlayerGui.CombatClient.Skill2:InvokeServer(player.PlayerGui.Server.SkillsDisplayDigimon.Skill2.SkillDamage.Value, player.PlayerGui.Server.SkillsDisplayDigimon.Skill2.Cooldown.Value, tostring(math.random(100000, 999999))..tostring(tick()), false)
+		end
+	end)
+	task.spawn(function()
+		if player.PlayerGui.Server.SkillsDisplayDigimon:FindFirstChild("Skill1") then
+			player.PlayerGui.CombatClient.Skill1:InvokeServer(player.PlayerGui.Server.SkillsDisplayDigimon.Skill1.SkillDamage.Value, player.PlayerGui.Server.SkillsDisplayDigimon.Skill1.Cooldown.Value, tostring(math.random(100000, 999999))..tostring(tick()), false)
+		end
+	end)
+end
+
+local function auto_Colosseum()
+	local restart
+	local onbattle
+
+	for i,v in pairs(workspace.Collect:GetChildren()) do
+		if (MacLib.Options["EnabledButton"].State and MacLib.Options["AutoDungeon_Toggle"].State) and check() and v and v:FindFirstChild("Check") and v:FindFirstChild("Part") and v.Part:FindFirstChild("InfoBar") and v.Part.InfoBar:FindFirstChild("DigimonName") and v:FindFirstChild("Health") and v.Health.Value > 0 and not player.PlayerGui.Loading.MainFrame.ImageLabel.Visible then
+			local indexNum = v.Name
+			local mobName = v.Part.InfoBar.DigimonName.ContentText
+			
+			onbattle = true
+			print("Target:", v.Name, v.Part.InfoBar.DigimonName.ContentText, v.Health.Value)
+
+			pcall(function()
+				repeat 
+					workspace.CurrentCamera.CameraSubject = player.Character.HumanoidRootPart.pet1.Pet
+					
+					fireclickdetector(v.Check)
+					
+					spamSkill()
+
+					if check() and player.Character.HumanoidRootPart:FindFirstChild("pet1") and player.Character.HumanoidRootPart.pet1.Stats.Health.Value < (regen * player.Character.HumanoidRootPart.pet1.Stats.HealthMax.Value)  then
+						repeat task.wait(0.3)
+							task.spawn(function()
+								game:GetService("Players").LocalPlayer.PlayerGui.CombatClient.CallDigimon:InvokeServer(tostring(math.random(100000, 999999)), false)
+							end)
+						until not check() or not player.Character.HumanoidRootPart:FindFirstChild("pet1") or (player.Character.HumanoidRootPart.pet1.Stats.Health.Value >= player.Character.HumanoidRootPart.pet1.Stats.HealthMax.Value) or not v or not v:FindFirstChild("Part") or not v:FindFirstChild("Check") or not v:FindFirstChild("Health") or v.Health.Value <= 0 or player.PlayerGui.Loading.MainFrame.ImageLabel.Visible or not MacLib.Options["EnabledButton"].State or not MacLib.Options["AutoDungeon_Toggle"].State
+					end
+
+					if v and v:FindFirstChild("Part") and v.Part:FindFirstChild("InfoBar") and v.Part.InfoBar:FindFirstChild("DigimonName") and ((getgenv().Settings.Setting.Difficulty == "Easy" and string.match(v.Part.InfoBar.DigimonName.ContentText, "Dorbickmon")) or (getgenv().Settings.Setting.Difficulty == "Normal" and string.match(v.Part.InfoBar.DigimonName.ContentText, "MadLeomon"))) then
+						restart = true
+					end
+
+					task.wait(0.1)
+				until not MacLib.Options["EnabledButton"].State or not MacLib.Options["AutoDungeon_Toggle"].State or not check() or not v or not v:FindFirstChild("Check") or not v:FindFirstChild("Part") or not v.Part:FindFirstChild("InfoBar") or not v.Part.InfoBar:FindFirstChild("DigimonName") or not v:FindFirstChild("Health") or v.Health.Value <= 0 or player.PlayerGui.Loading.MainFrame.ImageLabel.Visible
+			end)
+			warn("Killed:", indexNum, mobName)
+			onbattle = false
+		end
+	end
+	
+	if (MacLib.Options["AutoDungeon_Toggle"].State and MacLib.Options["EnabledButton"].State) and check() and restart and not onbattle and checkCount() then
+		workspace.CurrentCamera.CameraSubject = player.Character
+		task.wait(1)
+		--messageWebhook()
+		game:GetService("TeleportService"):Teleport(game.PlaceId)
+		return
+	end
+end
+
+
 local function auto_Dungeon()
 	local restart
 	local onbattle
@@ -224,27 +297,11 @@ local function auto_Dungeon()
 			print("Target:", v.Name, v.Part.InfoBar.DigimonName.ContentText, v.Health.Value)
 			pcall(function()
 				repeat 
-					if player.Character.HumanoidRootPart:FindFirstChild("pet1") then
-						workspace.CurrentCamera.CameraSubject = player.Character.HumanoidRootPart.pet1.Pet
-					end
-					if check() or not player.PlayerGui.Loading.MainFrame.ImageLabel.Visible then
-						fireclickdetector(v.Check)
-					end
-					task.spawn(function()
-						if player.PlayerGui.Server.SkillsDisplayDigimon:FindFirstChild("Skill3") then
-							player.PlayerGui.CombatClient.Skill3:InvokeServer(player.PlayerGui.Server.SkillsDisplayDigimon.Skill3.SkillDamage.Value, player.PlayerGui.Server.SkillsDisplayDigimon.Skill3.Cooldown.Value, tostring(math.random(100000, 999999))..tostring(tick()), false)
-						end
-					end)
-					task.spawn(function()
-						if player.PlayerGui.Server.SkillsDisplayDigimon:FindFirstChild("Skill2") then
-							player.PlayerGui.CombatClient.Skill2:InvokeServer(player.PlayerGui.Server.SkillsDisplayDigimon.Skill2.SkillDamage.Value, player.PlayerGui.Server.SkillsDisplayDigimon.Skill2.Cooldown.Value, tostring(math.random(100000, 999999))..tostring(tick()), false)
-						end
-					end)
-					task.spawn(function()
-						if player.PlayerGui.Server.SkillsDisplayDigimon:FindFirstChild("Skill1") then
-							player.PlayerGui.CombatClient.Skill1:InvokeServer(player.PlayerGui.Server.SkillsDisplayDigimon.Skill1.SkillDamage.Value, player.PlayerGui.Server.SkillsDisplayDigimon.Skill1.Cooldown.Value, tostring(math.random(100000, 999999))..tostring(tick()), false)
-						end
-					end)
+					workspace.CurrentCamera.CameraSubject = player.Character.HumanoidRootPart.pet1.Pet
+
+					fireclickdetector(v.Check)
+
+					spamSkill()
 
 					if v.Part.InfoBar:FindFirstChild("BossTitle") and string.match(v.Part.InfoBar.BossTitle.Text, "The Chieftain") then
 						restart = true
@@ -257,9 +314,9 @@ local function auto_Dungeon()
 			onbattle = false
 		end
 	end
-	workspace.CurrentCamera.CameraSubject = player.Character
 	
-	if check() and restart and not onbattle and checkCount() then
+	if (MacLib.Options["AutoDungeon_Toggle"].State and MacLib.Options["EnabledButton"].State) and check() and restart and not onbattle and checkCount() then
+		workspace.CurrentCamera.CameraSubject = player.Character
 		task.wait(1)
 		--messageWebhook()
 		game:GetService("TeleportService"):Teleport(game.PlaceId)
@@ -289,26 +346,7 @@ local function auto_Farm()
                 fireclickdetector(Target.Check)
             end
 
-            task.spawn(function()
-                if player.PlayerGui.Server.SkillsDisplayDigimon:FindFirstChild("Skill4") then
-                    player.PlayerGui.CombatClient.Skill4:InvokeServer(player.PlayerGui.Server.SkillsDisplayDigimon.Skill4.SkillDamage.Value, player.PlayerGui.Server.SkillsDisplayDigimon.Skill4.Cooldown.Value, tostring(math.random(100000, 999999))..tostring(tick()), false)
-                end
-            end)
-            task.spawn(function()
-                if player.PlayerGui.Server.SkillsDisplayDigimon:FindFirstChild("Skill3") then
-                    player.PlayerGui.CombatClient.Skill3:InvokeServer(player.PlayerGui.Server.SkillsDisplayDigimon.Skill3.SkillDamage.Value, player.PlayerGui.Server.SkillsDisplayDigimon.Skill3.Cooldown.Value, tostring(math.random(100000, 999999))..tostring(tick()), false)
-                end
-            end)
-            task.spawn(function()
-                if player.PlayerGui.Server.SkillsDisplayDigimon:FindFirstChild("Skill2") then
-                    player.PlayerGui.CombatClient.Skill2:InvokeServer(player.PlayerGui.Server.SkillsDisplayDigimon.Skill2.SkillDamage.Value, player.PlayerGui.Server.SkillsDisplayDigimon.Skill2.Cooldown.Value, tostring(math.random(100000, 999999))..tostring(tick()), false)
-                end
-            end)
-            task.spawn(function()
-                if player.PlayerGui.Server.SkillsDisplayDigimon:FindFirstChild("Skill1") then
-                    player.PlayerGui.CombatClient.Skill1:InvokeServer(player.PlayerGui.Server.SkillsDisplayDigimon.Skill1.SkillDamage.Value, player.PlayerGui.Server.SkillsDisplayDigimon.Skill1.Cooldown.Value, tostring(math.random(100000, 999999))..tostring(tick()), false)
-                end
-            end)
+            
         until not check() and player.PlayerGui.Loading.MainFrame.ImageLabel.Visible or not Target or Target == nil or not Target:FindFirstChild("Health") or Target.Health.Value <= 0 or not MacLib.Options["EnabledButton"].State or not MacLib.Options["AutoFarm_Toggle"].State
     end)
 	warn("Killed:", digimonName)
@@ -399,6 +437,7 @@ Section_Main_Functions:Toggle({ -- Main Auto-Farm Toggle
 				task.wait(0.1)
             end
 		end
+
         saveConfig()
 	end,
 }, "AutoFarm_Toggle")
@@ -460,10 +499,16 @@ Section_Main_Functions:Toggle({
             end
 
             while MacLib.Options["AutoColosseum_Toggle"].State and MacLib.Options["EnabledButton"].State and MacLib.Options["AutoColosseum_Difficulty_Dropdown"].Value do
-                --Colosseum Farm
+				if not checkPlace("Colosseum") then
+					return
+				end
+				auto_Colosseum()
+
+				task.wait(0.1)
             end
 		end
         saveConfig()
+
 	end,
 }, "AutoColosseum_Toggle")
 
