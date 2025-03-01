@@ -254,12 +254,12 @@ local function auto_Colosseum()
 					
 					spamSkill()
 
-					if check() and player.Character.HumanoidRootPart:FindFirstChild("pet1") and player.Character.HumanoidRootPart.pet1.Stats.Health.Value < (regen * player.Character.HumanoidRootPart.pet1.Stats.HealthMax.Value)  then
+					if MacLib.Options["AutoColosseum_Regen_Toggle"].State and player.Character.HumanoidRootPart.pet1.Stats.Health.Value < (regen * player.Character.HumanoidRootPart.pet1.Stats.HealthMax.Value) then
 						repeat task.wait(0.3)
 							task.spawn(function()
 								game:GetService("Players").LocalPlayer.PlayerGui.CombatClient.CallDigimon:InvokeServer(tostring(math.random(100000, 999999)), false)
 							end)
-						until not check() or not player.Character.HumanoidRootPart:FindFirstChild("pet1") or (player.Character.HumanoidRootPart.pet1.Stats.Health.Value >= player.Character.HumanoidRootPart.pet1.Stats.HealthMax.Value) or not v or not v:FindFirstChild("Part") or not v:FindFirstChild("Check") or not v:FindFirstChild("Health") or v.Health.Value <= 0 or player.PlayerGui.Loading.MainFrame.ImageLabel.Visible or not MacLib.Options["EnabledButton"].State or not MacLib.Options["AutoDungeon_Toggle"].State
+						until not MacLib.Options["AutoColosseum_Regen_Toggle"].State or not check() or not player.Character.HumanoidRootPart:FindFirstChild("pet1") or (player.Character.HumanoidRootPart.pet1.Stats.Health.Value >= player.Character.HumanoidRootPart.pet1.Stats.HealthMax.Value) or not v or not v:FindFirstChild("Part") or not v:FindFirstChild("Check") or not v:FindFirstChild("Health") or v.Health.Value <= 0 or player.PlayerGui.Loading.MainFrame.ImageLabel.Visible or not MacLib.Options["EnabledButton"].State or not MacLib.Options["AutoDungeon_Toggle"].State
 					end
 
 					if v and v:FindFirstChild("Part") and v.Part:FindFirstChild("InfoBar") and v.Part.InfoBar:FindFirstChild("DigimonName") and ((getgenv().Settings.Setting.Difficulty == "Easy" and string.match(v.Part.InfoBar.DigimonName.ContentText, "Dorbickmon")) or (getgenv().Settings.Setting.Difficulty == "Normal" and string.match(v.Part.InfoBar.DigimonName.ContentText, "MadLeomon"))) then
@@ -540,6 +540,15 @@ Section_Main_Save:Button({
 			return 
 		end
 		writefile("bitsv3rm/settings/bitsv3rm.json", "")
+	end,
+})
+Section_Main_Save:Button({
+	Name = "TEST",
+	Callback = function()
+        if UIisLoaded < 2 then 
+			return 
+		end
+		print(MacLib.Options["AutoColosseum_Regen_Dropdown"].Value)
 	end,
 })
 
