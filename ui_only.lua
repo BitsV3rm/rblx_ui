@@ -423,7 +423,7 @@ Section_Main_Functions:Toggle({ -- Main Auto-Dungeon Toggle
             if MacLib.Options["AutoColosseum_Toggle"].State then
                 MacLib.Options["AutoColosseum_Toggle"]:UpdateState(false)
             end
-
+			print(MacLib.Options["AutoDungeon_Toggle"].State, MacLib.Options["EnabledButton"].State, MacLib.Options["AutoDungeon_Difficulty_Dropdown"].Value)
             while MacLib.Options["AutoDungeon_Toggle"].State and MacLib.Options["EnabledButton"].State and MacLib.Options["AutoDungeon_Difficulty_Dropdown"].Value do
 				print('1')
                 if not checkPlace("GoblinFort") then
