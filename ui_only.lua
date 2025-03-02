@@ -350,8 +350,6 @@ local function checkPlayers()
 		local role = v:GetRoleInGroup(34891484)
 		local inGroup = v:IsInGroup(34891484)
 
-		print(v.Name, role)
-
 		if v.UserId ~= player.UserId and inGroup and not string.match(role, "Member") and not string.match(role, "Guest") then
 			MacLib.Options["EnabledButton"].State = false
 			repeat task.wait() until not player.PlayerGui.Loading.MainFrame.ImageLabel.Visible
@@ -372,8 +370,6 @@ local function checkPlayers()
 	game:GetService("Players").PlayerAdded:Connect(function(v)
 		local role = v:GetRoleInGroup(34891484)
 		local inGroup = v:IsInGroup(34891484)
-
-		print(v, role)
 
 		if v.UserId ~= player.UserId and inGroup and not string.match(role, "Member") and not string.match(role, "Guest") then
 			MacLib.Options["EnabledButton"].State = false
@@ -737,12 +733,10 @@ Section_Main_Functions:Toggle({ -- Main Auto-Dungeon Toggle
             if MacLib.Options["AutoColosseum_Toggle"].State then
                 MacLib.Options["AutoColosseum_Toggle"]:UpdateState(false)
             end
-			print("Attempt")
+
 			if MacLib.Options["AutoDungeon_Reconnect_Toggle"].State and MacLib.Options["AutoDungeon_Toggle"].State and MacLib.Options["EnabledButton"].State and MacLib.Options["AutoDungeon_Difficulty_Dropdown"].Value then
-				print("Success 1")
 				task.spawn(function()
 					while MacLib.Options["AutoDungeon_Reconnect_Toggle"].State and MacLib.Options["AutoDungeon_Toggle"].State and MacLib.Options["EnabledButton"].State and MacLib.Options["AutoDungeon_Difficulty_Dropdown"].Value do
-						print("Success 2")
 						task.wait(MacLib.Options["AutoDungeon_Reconnect_Slider"].Value)
 						messageWebhook()					
 					end
@@ -1053,7 +1047,7 @@ Section_AutoColosseum_Reconnect:Toggle({
 }, "AutoColosseum_Reconnect_Toggle")
 Section_AutoColosseum_Reconnect:Slider({
 	Name = "Reconnect Timer",
-	Default = 300,
+	Default = 900,
 	Minimum = 60,
 	Maximum = 3600,
 	DisplayMethod = "Value",
@@ -1136,7 +1130,7 @@ Section_Settings_Misc:Toggle({
 	Default = false,
 	Callback = function()
 		repeat task.wait() until UIisLoaded == 2
-		print(MacLib.Options["Settings_CheckPlayers_Toggle"].State)
+
 		if MacLib.Options["Settings_CheckPlayers_Toggle"].State and (game.PlaceId == 80299472659017 or game.PlaceId == 110577167676254 or game.PlaceId == 76011326497329 or game.PlaceId == 86392425558311) then
 			checkPlayers()
 		end
