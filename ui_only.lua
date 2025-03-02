@@ -540,7 +540,6 @@ local function auto_Colosseum()
 	if (MacLib.Options["AutoColosseum_Toggle"].State and MacLib.Options["EnabledButton"].State) and check() and restart and not onbattle and checkCount() then
 		workspace.CurrentCamera.CameraSubject = player.Character
 		task.wait(1)
-		print("One")
 		messageWebhook()
 		repeat task.wait(0.5) 
 			game:GetService("TeleportService"):Teleport(game.PlaceId)
@@ -672,7 +671,10 @@ Section_Main_Functions:Toggle({ -- Main Auto-Farm Toggle
 	Name = "Auto-Farm",
 	Default = false,
 	Callback = function()
-		repeat task.wait() until UIisLoaded == 2
+		if UIisLoaded < 1 then 
+			return 
+		end
+
 		if MacLib.Options["AutoFarm_Toggle"].State then
 
             if not MacLib.Options["EnabledButton"].State then
@@ -718,9 +720,7 @@ Section_Main_Functions:Toggle({ -- Main Auto-Dungeon Toggle
 	Name = "Auto-Dungeon",
 	Default = false,
 	Callback = function()
-		print("1")
 		if UIisLoaded < 1 then 
-			print("2")
 			return 
 		end
 
@@ -749,13 +749,10 @@ Section_Main_Functions:Toggle({ -- Main Auto-Dungeon Toggle
 				end
 			end)
 
-			print("Auto-Dungeon 1")
 			while MacLib.Options["AutoDungeon_Toggle"].State and MacLib.Options["EnabledButton"].State and MacLib.Options["AutoDungeon_Difficulty_Dropdown"].Value do
                 if not checkPlace("GoblinFort") then
 					repeat task.wait() until not tpMode
 				end
-
-				print("Auto-Dungeon 2")
 
 				auto_Dungeon()
 
@@ -770,7 +767,9 @@ Section_Main_Functions:Toggle({
 	Name = "Auto-Colosseum",
 	Default = false,
 	Callback = function()
-		repeat task.wait() until UIisLoaded == 2
+		if UIisLoaded < 1 then 
+			return 
+		end
 
 		if MacLib.Options["AutoColosseum_Toggle"].State then
 
@@ -949,7 +948,6 @@ Section_AutoFarm_Macro:Slider({
 	Maximum = 100,
 	DisplayMethod = "Value",
 	Callback = function()
-		repeat task.wait() until UIisLoaded == 2
 	end,
 }, "AutoFarm_Range_Slider")
 local Section_AutoFarm_WebhookTimer = Tab_AutoFarm:Section({
@@ -1122,7 +1120,9 @@ Section_Settings_Misc:Toggle({
 	Name = "Check Update",
 	Default = false,
 	Callback = function()
-		repeat task.wait() until UIisLoaded == 2
+		if UIisLoaded < 1 then 
+			return 
+		end
 
 		if MacLib.Options["Settings_CheckUpdate_Toggle"].State then
 			local currentPlace = game.PlaceId
@@ -1139,7 +1139,9 @@ Section_Settings_Misc:Toggle({
 	Name = "Check Players",
 	Default = false,
 	Callback = function()
-		repeat task.wait() until UIisLoaded == 2
+		if UIisLoaded < 1 then 
+			return 
+		end
 
 		if MacLib.Options["Settings_CheckPlayers_Toggle"].State and (game.PlaceId == 80299472659017 or game.PlaceId == 110577167676254 or game.PlaceId == 76011326497329 or game.PlaceId == 86392425558311) then
 			checkPlayers()
@@ -1150,7 +1152,9 @@ Section_Settings_Misc:Toggle({
 	Name = "Streamer Mode",
 	Default = false,
 	Callback = function()
-		repeat task.wait() until UIisLoaded == 2
+		if UIisLoaded < 1 then 
+			return 
+		end
 
 		if MacLib.Options["Settings_StreamerMode_Toggle"].State then
 			for i,v in pairs(player.Character:GetChildren()) do
