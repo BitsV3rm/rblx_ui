@@ -704,7 +704,7 @@ Section_Main_Functions:Toggle({ -- Main Auto-Farm Toggle
 			end
 
             while MacLib.Options["AutoFarm_Toggle"].State and MacLib.Options["EnabledButton"].State and ((MacLib.Options["AutoFarm_Bot_Toggle"].State and MacLib.Options["mobs_Dropdown"].Value) or MacLib.Options["AutoFarm_Macro_Toggle"].State) do
-                print("AutoFarm")
+                
 				auto_Farm()
 
 				task.wait(0.1)
@@ -749,6 +749,9 @@ Section_Main_Functions:Toggle({ -- Main Auto-Dungeon Toggle
                 if not checkPlace("GoblinFort") then
 					repeat task.wait() until not tpMode
 				end
+
+				print("Auto-Dungeon")
+
 				auto_Dungeon()
 
 				task.wait(0.1)
