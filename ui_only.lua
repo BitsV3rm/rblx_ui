@@ -43,12 +43,13 @@ getgenv().Settings = {
         }
     },
 	placeVer = {
-        [133649758958568] = 2389,  -- Silver Lake
-        [92975923292118] = 865,    -- Gear Savannah
-        [138083468820287] = 702,   -- Infinite Mountain
-        [80299472659017] = 894,    -- Colosseum_Easy
-        [76011326497329] = 243,    -- GoblinFort_Normal
-        [86392425558311] = 201     -- GoblinFort_Hard
+        [133649758958568] = 2431,  -- Silver Lake
+        [92975923292118] = 909,    -- Gear Savannah
+        [138083468820287] = 734,   -- Infinite Mountain
+        [80299472659017] = 934,    -- Colosseum_Easy
+        [110577167676254] = 83,    -- Colosseum_Normal
+        [76011326497329] = 277,    -- GoblinFort_Normal
+        [86392425558311] = 238     -- GoblinFort_Hard
     },
 	placeId = {
 		["Silver Lake"] = 133649758958568,  -- Silver Lake
@@ -1024,6 +1025,17 @@ Section_Settings_Misc:Toggle({
 	Name = "Check Update",
 	Default = false,
 	Callback = function()
+		repeat task.wait() until UIisLoaded == 2
+
+		if MacLib.Options["Settings_CheckUpdate_Toggle"].State then
+			local currentPlace = game.PlaceId
+			local currentVer = placeVer[currentPlace]
+	
+			if currentVer and game.PlaceVersion ~= currentVer then
+				player:Kick("Script Outdated: Game has been updated.", tostring(game.PlaceVersion))
+				return
+			end
+		end
 	end,
 }, "Settings_CheckUpdate_Toggle")
 Section_Settings_Misc:Toggle({
