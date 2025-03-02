@@ -161,7 +161,7 @@ local function calculateDrops()
 	end
 
 	-- Check DigiLvl
-	local after_DigiLvl = player.PetsLevel[digimonEquipped].Value
+	local after_DigiLvl = player.PetsLevel[player.CharInfoID.Digimon.Value].Value
 	local digiLvl_diff = after_DigiLvl - before_DigiLvl
 	if digiLvl_diff > 0 then
 		differences["DigiLvl"] = string.format("+ %d Digimon Level", digiLvl_diff)
@@ -195,7 +195,7 @@ local function refreshStats()
 		end
 	end
 	before_Bits = player.CharInfoID.Bits.Value
-	before_DigiLvl = player.PetsLevel[digimonEquipped].Value
+	before_DigiLvl = player.PetsLevel[player.CharInfoID.Digimon.Value].Value
 	before_TamerLvl = player.CharInfoID.Level.Value
 end
 
