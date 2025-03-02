@@ -718,7 +718,9 @@ Section_Main_Functions:Toggle({ -- Main Auto-Dungeon Toggle
 	Name = "Auto-Dungeon",
 	Default = false,
 	Callback = function()
-		repeat task.wait() until UIisLoaded == 2
+		if UIisLoaded < 1 then 
+			return 
+		end
 
 		if MacLib.Options["AutoDungeon_Toggle"].State then
 
