@@ -746,7 +746,7 @@ Section_Main_Functions:Toggle({ -- Main Auto-Dungeon Toggle
 
 			while MacLib.Options["AutoDungeon_Toggle"].State and MacLib.Options["EnabledButton"].State and MacLib.Options["AutoDungeon_Difficulty_Dropdown"].Value do
                 if not checkPlace("GoblinFort") then
-					return
+					repeat task.wait() until not tpMode
 				end
 				auto_Dungeon()
 
@@ -790,7 +790,7 @@ Section_Main_Functions:Toggle({
 
             while MacLib.Options["AutoColosseum_Toggle"].State and MacLib.Options["EnabledButton"].State and MacLib.Options["AutoColosseum_Difficulty_Dropdown"].Value do
 				if not checkPlace("Colosseum") then
-					return
+					repeat task.wait() until not tpMode
 				end
 				auto_Colosseum()
 
