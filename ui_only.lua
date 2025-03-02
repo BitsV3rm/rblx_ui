@@ -112,6 +112,8 @@ end)
 
 local MacLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/BitsV3rm/rblx_ui/refs/heads/main/maclib.txt"))()
 local player = game:GetService("Players").LocalPlayer
+local guiService = game:GetService("GuiService")
+local vim = game:GetService("VirtualInputManager")
 local restart = false
 local onbattle = false
 local tpMode = true
@@ -310,6 +312,85 @@ local function check()
 	return false
 end
 
+-- Click Button
+local function clickButton(imageButton)
+	local absPos = imageButton.AbsolutePosition
+	local absPosX = absPos.X + (imageButton.AbsoluteSize.X / 2)
+	local absPosY = absPos.Y + (imageButton.AbsoluteSize.Y / 2) + guiService:GetGuiInset().Y
+
+	vim:SendMouseButtonEvent(absPosX, absPosY, 0, true, game, 0)
+	task.wait(0.1)
+	vim:SendMouseButtonEvent(absPosX, absPosY, 0, false, game, 0)
+end
+
+-- Admin/Player Check --
+local function blockPlayers()
+	local players = game:GetService("Players"):GetPlayers()
+
+	for _, v in ipairs(players) do
+		if v ~= player then
+			game:GetService("StarterGui"):SetCore("PromptBlockPlayer", v)
+			task.wait(0.5)
+			if game:GetService("CoreGui").RobloxGui.PromptDialog.ContainerFrame:FindFirstChild("ConfirmButton") then
+				repeat task.wait(0.3)
+					for x,y in pairs(getconnections(game:GetService("CoreGui").RobloxGui.PromptDialog.ContainerFrame.ConfirmButton.MouseButton1Click)) do
+						y:Fire()
+					end
+					clickButton(game:GetService("CoreGui").RobloxGui.PromptDialog.ContainerFrame.ConfirmButton)
+				until not game:GetService("CoreGui").RobloxGui.PromptDialog.ContainerFrame.ConfirmButton.Visible or not game:GetService("CoreGui").RobloxGui.PromptDialog.Visible
+			end
+		end
+	end
+end
+
+local function checkPlayers()
+	local players = game:GetService("Players"):GetPlayers()
+
+	for i, v in ipairs(players) do
+		local role = v:GetRoleInGroup(34891484)
+		local inGroup = v:IsInGroup(34891484)
+
+		print(v.Name, role)
+
+		if v.UserId ~= player.UserId and inGroup and not string.match(role, "Member") and not string.match(role, "Guest") then
+			MacLib.Options["EnabledButton"].State = false
+			repeat task.wait() until not player.PlayerGui.Loading.MainFrame.ImageLabel.Visible
+			blockPlayers()
+			game:GetService("Players").LocalPlayer:Kick("Player: " .. v.Name .. " is a " .. role .. " in the group.")
+			game:GetService("TeleportService"):Teleport(game.PlaceId)
+		end
+
+		if v.UserId ~= player.UserId and (game.PlaceId == 80299472659017 or game.PlaceId == 110577167676254 or game.PlaceId == 76011326497329 or game.PlaceId == 86392425558311) then
+			MacLib.Options["EnabledButton"].State = false
+			repeat task.wait() until not player.PlayerGui.Loading.MainFrame.ImageLabel.Visible
+			blockPlayers()
+			game:GetService("Players").LocalPlayer:Kick("Player: " .. v.Name .. " is in your session.")
+			game:GetService("TeleportService"):Teleport(game.PlaceId)
+		end
+	end
+
+	game:GetService("Players").PlayerAdded:Connect(function(v)
+		local role = v:GetRoleInGroup(34891484)
+		local inGroup = v:IsInGroup(34891484)
+
+		print(v, role)
+
+		if v.UserId ~= player.UserId and inGroup and not string.match(role, "Member") and not string.match(role, "Guest") then
+			MacLib.Options["EnabledButton"].State = false
+			blockPlayers()
+			game:GetService("Players").LocalPlayer:Kick("Player: " .. v.Name .. " is a " .. role .. " in the group.")
+			game:GetService("TeleportService"):Teleport(game.PlaceId)
+		end
+
+		if v.UserId ~= player.UserId and (game.PlaceId == 80299472659017 or game.PlaceId == 110577167676254 or game.PlaceId == 76011326497329 or game.PlaceId == 86392425558311) then
+			MacLib.Options["EnabledButton"].State = false
+			blockPlayers()
+			game:GetService("Players").LocalPlayer:Kick("Player: " .. v.Name .. " has joined your session.")
+			game:GetService("TeleportService"):Teleport(game.PlaceId)
+		end
+	end)
+end
+
 local function nearest()
 	local Closest
     local Distance = math.huge
@@ -393,7 +474,6 @@ end
 local function checkCount()
 	if game:GetService("Workspace").Collect then 
 		local path = game:GetService("Workspace").Collect:GetChildren()
-		print("Count:", #path)
 		if #path <= 0 then
 			return true
 		end
@@ -425,7 +505,6 @@ local function spamSkill()
 end
 
 local function auto_Colosseum()
-
 	for i,v in pairs(workspace.Collect:GetChildren()) do
 		if (MacLib.Options["EnabledButton"].State and MacLib.Options["AutoColosseum_Toggle"].State) and check() and v and v:FindFirstChild("Check") and v:FindFirstChild("Part") and v.Part:FindFirstChild("InfoBar") and v.Part.InfoBar:FindFirstChild("DigimonName") and v:FindFirstChild("Health") and v.Health.Value > 0 and not player.PlayerGui.Loading.MainFrame.ImageLabel.Visible then
 			local indexNum = v.Name
@@ -466,14 +545,15 @@ local function auto_Colosseum()
 		workspace.CurrentCamera.CameraSubject = player.Character
 		task.wait(1)
 		messageWebhook()
-		game:GetService("TeleportService"):Teleport(game.PlaceId)
+		repeat task.wait(0.5) 
+			game:GetService("TeleportService"):Teleport(game.PlaceId)
+		until not tpMode
 		return
 	end
 end
 
 
 local function auto_Dungeon()
-
 	for i,v in pairs(workspace.Collect:GetChildren()) do
 		if (MacLib.Options["AutoDungeon_Toggle"].State and MacLib.Options["EnabledButton"].State) and check() and v and v:FindFirstChild("Check") and v:FindFirstChild("Part") and v.Part:FindFirstChild("InfoBar") and v.Part.InfoBar:FindFirstChild("DigimonName") and v:FindFirstChild("Health") and v.Health.Value > 0 and not player.PlayerGui.Loading.MainFrame.ImageLabel.Visible then
 			local indexNum = v.Name
@@ -500,16 +580,12 @@ local function auto_Dungeon()
 			onbattle = false
 		end
 	end
-
-	print(MacLib.Options["AutoDungeon_Toggle"].State, MacLib.Options["EnabledButton"].State, check(), restart, onbattle, checkCount())
 	
 	if MacLib.Options["AutoDungeon_Toggle"].State and MacLib.Options["EnabledButton"].State and check() and restart and not onbattle and checkCount() then
 		workspace.CurrentCamera.CameraSubject = player.Character
 		task.wait(1)
 		messageWebhook()
-		print("1")
 		repeat task.wait(0.5) 
-			print("2")
 			game:GetService("TeleportService"):Teleport(game.PlaceId) 
 		until not tpMode
 		return
@@ -1044,6 +1120,17 @@ Section_Settings_Misc:Toggle({
 		end
 	end,
 }, "Settings_CheckUpdate_Toggle")
+Section_Settings_Misc:Toggle({ 
+	Name = "Check Players",
+	Default = false,
+	Callback = function()
+		repeat task.wait() until UIisLoaded == 2
+
+		if MacLib.Options["Settings_CheckPlayers_Toggle"].State and (MacLib.Options["AutoColosseum_Toggle"].State or MacLib.Options["AutoDungeon_Toggle"].State) then
+			checkPlayers()
+		end
+	end,
+}, "Settings_CheckPlayers_Toggle")
 Section_Settings_Misc:Toggle({
 	Name = "Streamer Mode",
 	Default = false,
