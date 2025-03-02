@@ -734,14 +734,14 @@ Section_Main_Functions:Toggle({ -- Main Auto-Dungeon Toggle
                 MacLib.Options["AutoColosseum_Toggle"]:UpdateState(false)
             end
 
-			if MacLib.Options["AutoDungeon_Reconnect_Toggle"].State and MacLib.Options["AutoDungeon_Toggle"].State and MacLib.Options["EnabledButton"].State and MacLib.Options["AutoDungeon_Difficulty_Dropdown"].Value then
-				task.spawn(function()
-					while MacLib.Options["AutoDungeon_Reconnect_Toggle"].State and MacLib.Options["AutoDungeon_Toggle"].State and MacLib.Options["EnabledButton"].State and MacLib.Options["AutoDungeon_Difficulty_Dropdown"].Value do
-						task.wait(MacLib.Options["AutoDungeon_Reconnect_Slider"].Value)
-						messageWebhook()					
-					end
-				end)
-			end
+			task.spawn(function()
+				while MacLib.Options["AutoDungeon_Reconnect_Toggle"].State and MacLib.Options["AutoDungeon_Toggle"].State and MacLib.Options["EnabledButton"].State and MacLib.Options["AutoDungeon_Difficulty_Dropdown"].Value do
+					task.wait(MacLib.Options["AutoDungeon_Reconnect_Slider"].Value)
+					if MacLib.Options["AutoDungeon_Reconnect_Toggle"].State and MacLib.Options["AutoDungeon_Toggle"].State and MacLib.Options["EnabledButton"].State and MacLib.Options["AutoDungeon_Difficulty_Dropdown"].Value then
+						messageWebhook()
+					end				
+				end
+			end)
 
 			while MacLib.Options["AutoDungeon_Toggle"].State and MacLib.Options["EnabledButton"].State and MacLib.Options["AutoDungeon_Difficulty_Dropdown"].Value do
                 if not checkPlace("GoblinFort") then
@@ -776,6 +776,15 @@ Section_Main_Functions:Toggle({
             if MacLib.Options["AutoDungeon_Toggle"].State then
                 MacLib.Options["AutoDungeon_Toggle"]:UpdateState(false)
             end
+
+			task.spawn(function()
+				while MacLib.Options["AutoColosseum_Reconnect_Toggle"].State and MacLib.Options["AutoColosseum_Toggle"].State and MacLib.Options["EnabledButton"].State and MacLib.Options["AutoColosseum_Difficulty_Dropdown"].Value do
+					task.wait(MacLib.Options["AutoColosseum_Reconnect_Slider"].Value)
+					if MacLib.Options["AutoColosseum_Reconnect_Toggle"].State and MacLib.Options["AutoColosseum_Toggle"].State and MacLib.Options["EnabledButton"].State and MacLib.Options["AutoColosseum_Difficulty_Dropdown"].Value then
+						messageWebhook()
+					end				
+				end
+			end)
 
             while MacLib.Options["AutoColosseum_Toggle"].State and MacLib.Options["EnabledButton"].State and MacLib.Options["AutoColosseum_Difficulty_Dropdown"].Value do
 				if not checkPlace("Colosseum") then
