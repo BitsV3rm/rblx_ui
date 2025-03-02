@@ -219,7 +219,7 @@ local function messageWebhook()
 		local drops = formatDrops(calculateDrops())
 		refreshStats()
 
-		if MacLib.Options["AutoFarm_Toggle"].State or MacLib.Options["AutoColosseum_Toggle"].State then
+		if MacLib.Options["AutoDungeon_Toggle"].State or MacLib.Options["AutoColosseum_Toggle"].State then
 			drops = drops .. "\n(Time Cleared: " .. minutes .. "m " .. seconds .. "s)"
 		end
 
@@ -1030,6 +1030,26 @@ Section_Settings_Misc:Toggle({
 	Name = "Streamer Mode",
 	Default = false,
 	Callback = function()
+		repeat task.wait() until UIisLoaded == 2
+
+		if MacLib.Options["Settings_StreamerMode_Toggle"].State then
+			for i,v in pairs(player.Character:GetChildren()) do
+				if check() and v:IsA("Pants") or v:IsA("Shirt") or v:IsA("Accessory") then
+					v:Destroy()
+				end
+
+				if player.Character.Head:FindFirstChild("NameGui") then
+					player.Character.Head.NameGui:Destroy()
+				end
+
+				if player.Character.Head:FindFirstChild("TitleGui") then
+					player.Character.Head.TitleGui:Destroy()
+				end
+			end
+
+			player.PlayerGui.Server.UIInfos.UILevel.ViewportFrame.Visible = false
+			player.PlayerGui.PlayerListGui.PlayerScroller.Visible = false
+		end
 	end,
 }, "Settings_StreamerMode_Toggle")
 
