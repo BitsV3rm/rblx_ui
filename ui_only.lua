@@ -64,7 +64,18 @@ getgenv().Settings = {
         ["Silver Lake"] = Vector3.new(-60.7276, -363.8864, -203.6405),
         ["Gear Savannah"] = Vector3.new(-980.0617065429688, -459.4217834472656, 610.3125610351562),
         ["Infinite Mountain"] = Vector3.new(-626.793212890625, -21.54945182800293, 898.1337280273438)
-    }
+    },
+	boxes = {
+		["Heartfelt Gift"] = "BoxValentines",
+		["Geremon Bag (Normal)"] = "DungeonBoxGeremonNormal",
+		["Ogremon Bag (Normal)"] = "DungeonBoxOgremonNormal",
+		["Chest of Epsilon (Normal)"] = "DungeonBoxEpsilonNormal",
+		["Geremon Bag (Hard)"] = "DungeonBoxGeremonHard",
+		["Ogremon Bag (Hard)"] = "DungeonBoxOgremonHard",
+		["Chest of Epsilon (Hard)"] = "DungeonBoxEpsilonHard",
+		["Colosseum Box (Easy)"] = "BoxColiseum",
+		["Colosseum Box (Normal)"] = "BoxColiseum2"
+	}
 }
 
 repeat task.wait() until game:IsLoaded()
@@ -1095,7 +1106,7 @@ Section_Extra_OpenBoxes:Dropdown({
 	Search = false,
 	Multi = false,
 	Required = true,
-	Options = {},
+	Options = getgenv().Settings.boxes,
 	Default,
 	Callback = function()
 	end,
@@ -1104,6 +1115,24 @@ Section_Extra_OpenBoxes:Toggle({
 	Name = "Auto-Open",
 	Default = false,
 	Callback = function()
+		if UIisLoaded < 2 then 
+			return 
+		end
+
+
+		if MacLib.Options["Extra_OpenBoxes_Toggle"].State and MacLib.Options["Extra_OpenBoxes_Dropdown"].Value and (player.Items[getgenv().Settings.boxes[MacLib.Options["Extra_OpenBoxes_Dropdown"].Value]].Value >= 1) then
+			while MacLib.Options["Extra_OpenBoxes_Toggle"].State and MacLib.Options["Extra_OpenBoxes_Dropdown"].Value and (player.Items[getgenv().Settings.boxes[MacLib.Options["Extra_OpenBoxes_Dropdown"].Value]].Value >= 1)do
+				task.wait(0.1)
+				
+				local arg_itemname = getgenv().Settings.boxes[MacLib.Options["Extra_OpenBoxes_Dropdown"].Value]
+				local itemamount = player.Items[arg_itemname].Value
+				
+				print(player.Items[getgenv().Settings.boxes[MacLib.Options["Extra_OpenBoxes_Dropdown"].Value]].Value >= 1)
+				print(itemamount, arg_itemname)
+			end
+
+			MacLib.Options["Extra_OpenBoxes_Toggle"]:UpdateState(false)
+		end
 	end,
 }, "Extra_OpenBoxes_Toggle")
 
