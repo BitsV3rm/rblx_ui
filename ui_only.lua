@@ -502,10 +502,16 @@ local function auto_Dungeon()
 	end
 	
 	if (MacLib.Options["AutoDungeon_Toggle"].State and MacLib.Options["EnabledButton"].State) and check() and restart and not onbattle and checkCount() then
+		local tpMode = true
+
 		workspace.CurrentCamera.CameraSubject = player.Character
 		task.wait(1)
 		messageWebhook()
-		game:GetService("TeleportService"):Teleport(game.PlaceId)
+		print("1")
+		repeat task.wait(0.5) 
+			print("2")
+			game:GetService("TeleportService"):Teleport(game.PlaceId) 
+		until not tpMode
 		return
 	end
 end
