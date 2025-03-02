@@ -1103,10 +1103,10 @@ local Section_Extra_OpenBoxes = Tab_Extra:Section({ --
 })
 Section_Extra_OpenBoxes:Dropdown({
 	Name = "Boxes",
-	Search = false,
+	Search = true,
 	Multi = false,
 	Required = true,
-	Options = getgenv().Settings.boxes,
+	Options = getgenv().Settings["boxes"],
 	Default,
 	Callback = function()
 	end,
