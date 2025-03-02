@@ -58,7 +58,7 @@ getgenv().Settings = {
 		["Colosseum (Normal)"] = 110577167676254,    -- Colosseum_Normal
         ["GoblinFort (Normal)"] = 76011326497329,    -- GoblinFort_Normal
         ["GoblinFort (Hard)"] = 86392425558311     -- GoblinFort_Hard
-	},
+	}, 
 	Maps = {
         ["Silver Lake"] = Vector3.new(-60.7276, -363.8864, -203.6405),
         ["Gear Savannah"] = Vector3.new(-980.0617065429688, -459.4217834472656, 610.3125610351562),
@@ -124,6 +124,13 @@ local before_Boxes = {}
 local before_Bits = player.CharInfoID.Bits.Value
 local before_DigiLvl = player.PetsLevel[player.CharInfoID.Digimon.Value].Value
 local before_TamerLvl = player.CharInfoID.Level.Value
+local placeName
+for name, id in pairs(getgenv().Settings.placeId) do
+	if id == game.PlaceId then
+		placeName = name
+		break
+	end
+end
 
 local function formatCurrency(n)
 	local tera = math.floor(n / 1e6) -- Millions
@@ -210,7 +217,6 @@ local function messageWebhook()
 		local minutes = math.floor(elapsed / 60)
 		local seconds = elapsed % 60
 		local drops = formatDrops(calculateDrops())
-		local placeName = table.find(getgenv().Settings.placeId, game.PlaceId)
 		refreshStats()
 
 		if MacLib.Options["AutoFarm_Toggle"].State or MacLib.Options["AutoColosseum_Toggle"].State then
