@@ -463,7 +463,7 @@ local function auto_Colosseum()
 	if (MacLib.Options["AutoColosseum_Toggle"].State and MacLib.Options["EnabledButton"].State) and check() and restart and not onbattle and checkCount() then
 		workspace.CurrentCamera.CameraSubject = player.Character
 		task.wait(1)
-		--messageWebhook()
+		messageWebhook()
 		game:GetService("TeleportService"):Teleport(game.PlaceId)
 		return
 	end
@@ -504,7 +504,7 @@ local function auto_Dungeon()
 	if (MacLib.Options["AutoDungeon_Toggle"].State and MacLib.Options["EnabledButton"].State) and check() and restart and not onbattle and checkCount() then
 		workspace.CurrentCamera.CameraSubject = player.Character
 		task.wait(1)
-		--messageWebhook()
+		messageWebhook()
 		game:GetService("TeleportService"):Teleport(game.PlaceId)
 		return
 	end
