@@ -1106,7 +1106,7 @@ Section_Extra_OpenBoxes:Dropdown({
 	Search = true,
 	Multi = false,
 	Required = true,
-	Options = getgenv().Settings["boxes"],
+	Options = (function() local t = {} for k in pairs(getgenv().Settings.boxes) do t[#t+1] = k end return t end)(),
 	Default,
 	Callback = function()
 	end,
