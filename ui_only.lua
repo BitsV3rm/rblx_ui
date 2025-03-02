@@ -112,6 +112,9 @@ end)
 
 local MacLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/BitsV3rm/rblx_ui/refs/heads/main/maclib.txt"))()
 local player = game:GetService("Players").LocalPlayer
+local restart = false
+local onbattle = false
+local tpMode = true
 local UIisLoaded = 0
 
 --- Message Webhook FUNCTIONS ---
@@ -390,6 +393,7 @@ end
 local function checkCount()
 	if game:GetService("Workspace").Collect then 
 		local path = game:GetService("Workspace").Collect:GetChildren()
+		print("Count:", #path)
 		if #path <= 0 then
 			return true
 		end
@@ -421,8 +425,6 @@ local function spamSkill()
 end
 
 local function auto_Colosseum()
-	local restart
-	local onbattle
 
 	for i,v in pairs(workspace.Collect:GetChildren()) do
 		if (MacLib.Options["EnabledButton"].State and MacLib.Options["AutoColosseum_Toggle"].State) and check() and v and v:FindFirstChild("Check") and v:FindFirstChild("Part") and v.Part:FindFirstChild("InfoBar") and v.Part.InfoBar:FindFirstChild("DigimonName") and v:FindFirstChild("Health") and v.Health.Value > 0 and not player.PlayerGui.Loading.MainFrame.ImageLabel.Visible then
@@ -471,8 +473,6 @@ end
 
 
 local function auto_Dungeon()
-	local restart
-	local onbattle
 
 	for i,v in pairs(workspace.Collect:GetChildren()) do
 		if (MacLib.Options["AutoDungeon_Toggle"].State and MacLib.Options["EnabledButton"].State) and check() and v and v:FindFirstChild("Check") and v:FindFirstChild("Part") and v.Part:FindFirstChild("InfoBar") and v.Part.InfoBar:FindFirstChild("DigimonName") and v:FindFirstChild("Health") and v.Health.Value > 0 and not player.PlayerGui.Loading.MainFrame.ImageLabel.Visible then
@@ -500,10 +500,10 @@ local function auto_Dungeon()
 			onbattle = false
 		end
 	end
-	
-	if (MacLib.Options["AutoDungeon_Toggle"].State and MacLib.Options["EnabledButton"].State) and check() and restart and not onbattle and checkCount() then
-		local tpMode = true
 
+	print(MacLib.Options["AutoDungeon_Toggle"].State, MacLib.Options["EnabledButton"].State, check(), restart, onbattle, checkCount())
+	
+	if MacLib.Options["AutoDungeon_Toggle"].State and MacLib.Options["EnabledButton"].State and check() and restart and not onbattle and checkCount() then
 		workspace.CurrentCamera.CameraSubject = player.Character
 		task.wait(1)
 		messageWebhook()
