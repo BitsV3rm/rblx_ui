@@ -44,13 +44,13 @@ getgenv().Settings = {
     },
 	placeVer = {
         [133649758958568] = 2431,  -- Silver Lake
-        [92975923292118] = 909,    -- Gear Savannah
-        [138083468820287] = 734,   -- Infinite Mountain
-        [80299472659017] = 934,    -- Colosseum_Easy
-        [110577167676254] = 83,    -- Colosseum_Normal
-        [76011326497329] = 277,    -- GoblinFort_Normal
-        [86392425558311] = 238     -- GoblinFort_Hard
-    },
+		[92975923292118] = 913,    -- Gear Savannah
+		[138083468820287] = 738,   -- Infinite Mountain
+		[80299472659017] = 934,    -- Colosseum_Easy
+		[110577167676254] = 83,    -- Colosseum_Normal
+		[76011326497329] = 277,    -- GoblinFort_Normal
+		[86392425558311] = 238     -- GoblinFort_Hard
+	},
 	placeId = {
 		["Silver Lake"] = 133649758958568,  -- Silver Lake
         ["Gear Savannah"] = 92975923292118,    -- Gear Savannah
@@ -540,6 +540,7 @@ local function auto_Colosseum()
 	if (MacLib.Options["AutoColosseum_Toggle"].State and MacLib.Options["EnabledButton"].State) and check() and restart and not onbattle and checkCount() then
 		workspace.CurrentCamera.CameraSubject = player.Character
 		task.wait(1)
+		print("One")
 		messageWebhook()
 		repeat task.wait(0.5) 
 			game:GetService("TeleportService"):Teleport(game.PlaceId)
