@@ -1029,7 +1029,7 @@ Section_Settings_Misc:Toggle({
 
 		if MacLib.Options["Settings_CheckUpdate_Toggle"].State then
 			local currentPlace = game.PlaceId
-			local currentVer = placeVer[currentPlace]
+			local currentVer = getgenv().Settings.placeVer[currentPlace]
 	
 			if currentVer and game.PlaceVersion ~= currentVer then
 				player:Kick("Script Outdated: Game has been updated.", tostring(game.PlaceVersion))
