@@ -1131,7 +1131,9 @@ Section_Extra_OpenBoxes:Toggle({
 				print(itemamount, arg_itemname)
 			end
 
-			MacLib.Options["Extra_OpenBoxes_Toggle"]:UpdateState(false)
+			if MacLib.Options["Extra_OpenBoxes_Toggle"].State then
+				MacLib.Options["Extra_OpenBoxes_Toggle"]:UpdateState(false)
+			end
 		end
 	end,
 }, "Extra_OpenBoxes_Toggle")
