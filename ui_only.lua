@@ -737,6 +737,17 @@ Section_Main_Functions:Toggle({ -- Main Auto-Dungeon Toggle
             if MacLib.Options["AutoColosseum_Toggle"].State then
                 MacLib.Options["AutoColosseum_Toggle"]:UpdateState(false)
             end
+			print("Attempt")
+			if MacLib.Options["AutoDungeon_Reconnect_Toggle"].State and MacLib.Options["AutoDungeon_Toggle"].State and MacLib.Options["EnabledButton"].State and MacLib.Options["AutoDungeon_Difficulty_Dropdown"].Value then
+				print("Success 1")
+				task.spawn(function()
+					while MacLib.Options["AutoDungeon_Reconnect_Toggle"].State and MacLib.Options["AutoDungeon_Toggle"].State and MacLib.Options["EnabledButton"].State and MacLib.Options["AutoDungeon_Difficulty_Dropdown"].Value do
+						print("Success 2")
+						task.wait(MacLib.Options["AutoDungeon_Reconnect_Slider"].Value)
+						messageWebhook()					
+					end
+				end)
+			end
 
 			while MacLib.Options["AutoDungeon_Toggle"].State and MacLib.Options["EnabledButton"].State and MacLib.Options["AutoDungeon_Difficulty_Dropdown"].Value do
                 if not checkPlace("GoblinFort") then
@@ -985,7 +996,7 @@ Section_AutoDungeon_Reconnect:Toggle({
 	end,
 }, "AutoDungeon_Reconnect_Toggle")
 Section_AutoDungeon_Reconnect:Slider({
-	Name = "Webhook Timer",
+	Name = "Reconnect Timer",
 	Default = 300,
 	Minimum = 60,
 	Maximum = 3600,
@@ -1041,7 +1052,7 @@ Section_AutoColosseum_Reconnect:Toggle({
 	end,
 }, "AutoColosseum_Reconnect_Toggle")
 Section_AutoColosseum_Reconnect:Slider({
-	Name = "Webhook Timer",
+	Name = "Reconnect Timer",
 	Default = 300,
 	Minimum = 60,
 	Maximum = 3600,
