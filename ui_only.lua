@@ -738,7 +738,8 @@ Section_Main_Functions:Toggle({ -- Main Auto-Dungeon Toggle
 				while MacLib.Options["AutoDungeon_Reconnect_Toggle"].State and MacLib.Options["AutoDungeon_Toggle"].State and MacLib.Options["EnabledButton"].State and MacLib.Options["AutoDungeon_Difficulty_Dropdown"].Value do
 					task.wait(MacLib.Options["AutoDungeon_Reconnect_Slider"].Value)
 					if MacLib.Options["AutoDungeon_Reconnect_Toggle"].State and MacLib.Options["AutoDungeon_Toggle"].State and MacLib.Options["EnabledButton"].State and MacLib.Options["AutoDungeon_Difficulty_Dropdown"].Value then
-						messageWebhook()
+						player:Kick("Timer: Reconnecting to the Game.")
+                		game:GetService("TeleportService"):Teleport(game.PlaceId)
 					end				
 				end
 			end)
@@ -781,7 +782,8 @@ Section_Main_Functions:Toggle({
 				while MacLib.Options["AutoColosseum_Reconnect_Toggle"].State and MacLib.Options["AutoColosseum_Toggle"].State and MacLib.Options["EnabledButton"].State and MacLib.Options["AutoColosseum_Difficulty_Dropdown"].Value do
 					task.wait(MacLib.Options["AutoColosseum_Reconnect_Slider"].Value)
 					if MacLib.Options["AutoColosseum_Reconnect_Toggle"].State and MacLib.Options["AutoColosseum_Toggle"].State and MacLib.Options["EnabledButton"].State and MacLib.Options["AutoColosseum_Difficulty_Dropdown"].Value then
-						messageWebhook()
+						player:Kick("Timer: Reconnecting to the Game.")
+                		game:GetService("TeleportService"):Teleport(game.PlaceId)
 					end				
 				end
 			end)
