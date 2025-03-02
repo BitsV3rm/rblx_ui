@@ -54,9 +54,10 @@ getgenv().Settings = {
 		["Silver Lake"] = 133649758958568,  -- Silver Lake
         ["Gear Savannah"] = 92975923292118,    -- Gear Savannah
         ["Infinite Mountain"] = 138083468820287,   -- Infinite Mountain
-        ["Colosseum_Easy"] = 80299472659017,    -- Colosseum_Easy
-        ["GoblinFort_Normal"] = 76011326497329,    -- GoblinFort_Normal
-        ["GoblinFort_Hard"] = 86392425558311     -- GoblinFort_Hard
+        ["Colosseum (Easy)"] = 80299472659017,    -- Colosseum_Easy
+		["Colosseum (Normal)"] = 110577167676254,    -- Colosseum_Normal
+        ["GoblinFort (Normal)"] = 76011326497329,    -- GoblinFort_Normal
+        ["GoblinFort (Hard)"] = 86392425558311     -- GoblinFort_Hard
 	},
 	Maps = {
         ["Silver Lake"] = Vector3.new(-60.7276, -363.8864, -203.6405),
@@ -199,75 +200,85 @@ local function refreshStats()
 end
 
 local function messageWebhook()
-	local digimonName = player.PlayerGui.Server.DigimonInfo.DigimonUse.NameDigimon.Text:sub(7)
-	local digimonStage = player.PlayerGui.Server.DigimonInfo.DigimonUse.StageDigimon.Text:sub(8)
-	local digimonLvl = player.PlayerGui.Server.UIInfos.UIDigimon.Frame.TextLabel.Text
-	local ruby = player.PlayerGui.TamerEquipament.Inventory.Rubys.TextLabel.Text
-	local bits = player.PlayerGui.TamerEquipament.Inventory.Bits.Text:gsub("<font color='.-'>(.-)</font>", "%1")
-	local drops = formatDrops(calculateDrops())
-	refreshStats()
+	if MacLib.Options["Settings_EnableDiscord_Toggle"].State and MacLib.Options["Settings_WebhookURL_Input"].Text then
+		local digimonName = player.PlayerGui.Server.DigimonInfo.DigimonUse.NameDigimon.Text:sub(7)
+		local digimonStage = player.PlayerGui.Server.DigimonInfo.DigimonUse.StageDigimon.Text:sub(8)
+		local digimonLvl = player.PlayerGui.Server.UIInfos.UIDigimon.Frame.TextLabel.Text
+		local ruby = player.PlayerGui.TamerEquipament.Inventory.Rubys.TextLabel.Text
+		local bits = player.PlayerGui.TamerEquipament.Inventory.Bits.Text:gsub("<font color='.-'>(.-)</font>", "%1")
+		local elapsed = (os.time() - startTime) - 1
+		local minutes = math.floor(elapsed / 60)
+		local seconds = elapsed % 60
+		local drops = formatDrops(calculateDrops())
+		local placeName = table.find(getgenv().Settings.placeId, game.PlaceId)
+		refreshStats()
 
-	local http = game:GetService("HttpService")
+		if MacLib.Options["AutoFarm_Toggle"].State or MacLib.Options["AutoColosseum_Toggle"].State then
+			drops = drops .. "\n(Time Cleared: " .. minutes .. "m " .. seconds .. "s)"
+		end
 
-	local data = {
-		["embeds"] = {{
-			["thumbnail"] = {
-				["url"] = "https://tr.rbxcdn.com/180DAY-fb0da5970ddb93e8e293fa4a15e0dedc/150/150/Image/Webp/noFilter"
-			},
-			["title"] = "**Digimon: Reboot World**",
-			["fields"] = {{
-				["name"] = "**User:**",
-				["value"] = "||".. player.Name .."||",
-				["inline"] = true
-			}, {
-				["name"] = "**Place ID:**",
-				["value"] = game.PlaceId,
-				["inline"] = true
-			}, {
-				["name"] = "**Job ID:**",
-				["value"] = game.JobId,
-				["inline"] = true
-			}, {
-				["name"] = "**Digimon Name:**",
-				["value"] = digimonName,
-				["inline"] = true
-			}, {
-				["name"] = "**Digimon Level:**",
-				["value"] = digimonLvl,
-				["inline"] = true
-			}, {
-				["name"] = "**Digimon Stage:**",
-				["value"] = digimonStage,
-				["inline"] = true
-			}, {
-				["name"] = "**Ruby:**",
-				["value"] = ruby,
-				["inline"] = true
-			}, {
-				["name"] = "**Bits:**",
-				["value"] = bits,
-				["inline"] = true
-			}, {
-				["name"] = "**".. getgenv().Settings.Location ..":**",
-				["value"] = drops,
-				["inline"] = false
-			}},
-			["color"] = tonumber(0xFFFFFF) 
-		}}
-	}
+		local http = game:GetService("HttpService")
 
-	local jsonMessage = http:JSONEncode(data)
-	local headers = {
-		["Content-Type"] = "application/json"
-	}
-	local success, response = pcall(function()
-		return request({
-			Url = getgenv().Settings.Setting.Webhook,
-			Body = jsonMessage,
-			Method = "POST",
-			Headers = headers
-		})
-	end)
+		local data = {
+			["embeds"] = {{
+				["thumbnail"] = {
+					["url"] = "https://tr.rbxcdn.com/180DAY-fb0da5970ddb93e8e293fa4a15e0dedc/150/150/Image/Webp/noFilter"
+				},
+				["title"] = "**Digimon: Reboot World**",
+				["fields"] = {{
+					["name"] = "**User:**",
+					["value"] = "||".. player.Name .."||",
+					["inline"] = true
+				}, {
+					["name"] = "**Place ID:**",
+					["value"] = game.PlaceId,
+					["inline"] = true
+				}, {
+					["name"] = "**Job ID:**",
+					["value"] = game.JobId,
+					["inline"] = true
+				}, {
+					["name"] = "**Digimon Name:**",
+					["value"] = digimonName,
+					["inline"] = true
+				}, {
+					["name"] = "**Digimon Level:**",
+					["value"] = digimonLvl,
+					["inline"] = true
+				}, {
+					["name"] = "**Digimon Stage:**",
+					["value"] = digimonStage,
+					["inline"] = true
+				}, {
+					["name"] = "**Ruby:**",
+					["value"] = ruby,
+					["inline"] = true
+				}, {
+					["name"] = "**Bits:**",
+					["value"] = bits,
+					["inline"] = true
+				}, {
+					["name"] = "**".. placeName ..":**",
+					["value"] = drops,
+					["inline"] = false
+				}},
+				["color"] = tonumber(0xFFFFFF) 
+			}}
+		}
+
+		local jsonMessage = http:JSONEncode(data)
+		local headers = {
+			["Content-Type"] = "application/json"
+		}
+		local success, response = pcall(function()
+			return request({
+				Url = MacLib.Options["Settings_WebhookURL_Input"].Text,
+				Body = jsonMessage,
+				Method = "POST",
+				Headers = headers
+			})
+		end)
+	end
 end
 --- Message Webhook FUNCTIONS ---
 
@@ -598,6 +609,15 @@ Section_Main_Functions:Toggle({ -- Main Auto-Farm Toggle
 				return
 			end
 
+			if MacLib.Options["AutoFarm_WebhookTimer_Toggle"].State and MacLib.Options["AutoFarm_Toggle"].State and MacLib.Options["EnabledButton"].State and ((MacLib.Options["AutoFarm_Bot_Toggle"].State and MacLib.Options["mobs_Dropdown"].Value) or MacLib.Options["AutoFarm_Macro_Toggle"].State) then
+				task.spawn(function()
+					while MacLib.Options["AutoFarm_WebhookTimer_Toggle"].State and MacLib.Options["AutoFarm_Toggle"].State and MacLib.Options["EnabledButton"].State and ((MacLib.Options["AutoFarm_Bot_Toggle"].State and MacLib.Options["mobs_Dropdown"].Value) or MacLib.Options["AutoFarm_Macro_Toggle"].State) do
+						task.wait(MacLib.Options["AutoFarm_WebhookTimer_Slider"].Value)
+						messageWebhook()					
+					end
+				end)
+			end
+
             while MacLib.Options["AutoFarm_Toggle"].State and MacLib.Options["EnabledButton"].State and ((MacLib.Options["AutoFarm_Bot_Toggle"].State and MacLib.Options["mobs_Dropdown"].Value) or MacLib.Options["AutoFarm_Macro_Toggle"].State) do
                 auto_Farm()
 
@@ -783,6 +803,10 @@ Section_AutoFarm_Bot:Dropdown({
 
 		if MacLib.Options["mobs_Dropdown"].Value ~= nil then
 
+			if MacLib.Options["AutoFarm_Toggle"].State then
+				MacLib.Options["AutoFarm_Toggle"]:UpdateState(false)
+			end
+
 			saveConfig()
 		end
 	end,
@@ -832,7 +856,7 @@ Section_AutoFarm_WebhookTimer:Toggle({
 	Default = false,
 	Callback = function()
 	end,
-}, "Settings_EnableDiscord_Toggle")
+}, "AutoFarm_WebhookTimer_Toggle")
 Section_AutoFarm_WebhookTimer:Slider({
 	Name = "Webhook Timer",
 	Default = 60,
