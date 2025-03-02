@@ -718,7 +718,9 @@ Section_Main_Functions:Toggle({ -- Main Auto-Dungeon Toggle
 	Name = "Auto-Dungeon",
 	Default = false,
 	Callback = function()
+		print("1")
 		if UIisLoaded < 1 then 
+			print("2")
 			return 
 		end
 
