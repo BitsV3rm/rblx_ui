@@ -66,7 +66,7 @@ getgenv().Settings = {
         ["Infinite Mountain"] = Vector3.new(-626.793212890625, -21.54945182800293, 898.1337280273438)
     },
 	boxes = {
-		["Heartfelt Gift"] = "BoxValentines",
+		["Heartfelt Gift [Event 2025]"] = "BoxValentines",
 		["Geremon Bag (Normal)"] = "DungeonBoxGeremonNormal",
 		["Ogremon Bag (Normal)"] = "DungeonBoxOgremonNormal",
 		["Chest of Epsilon (Normal)"] = "DungeonBoxEpsilonNormal",
@@ -1127,8 +1127,15 @@ Section_Extra_OpenBoxes:Toggle({
 				local arg_itemname = getgenv().Settings.boxes[MacLib.Options["Extra_OpenBoxes_Dropdown"].Value]
 				local itemamount = player.Items[arg_itemname].Value
 				
-				print(player.Items[getgenv().Settings.boxes[MacLib.Options["Extra_OpenBoxes_Dropdown"].Value]].Value >= 1)
-				print(itemamount, arg_itemname)
+				if itemamount > 0 then
+					if itemamount >= 100 then
+						game:GetService("ReplicatedStorage").ItemsEvent.OpenBoxEvent:InvokeServer(arg_itemname, 100)
+					elseif itemamount >= 10 then
+						game:GetService("ReplicatedStorage").ItemsEvent.OpenBoxEvent:InvokeServer(arg_itemname, 10)
+					elseif itemamount >= 1 then
+						game:GetService("ReplicatedStorage").ItemsEvent.OpenBoxEvent:InvokeServer(arg_itemname, 1)
+					end
+				end
 			end
 
 			if MacLib.Options["Extra_OpenBoxes_Toggle"].State then
