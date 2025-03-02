@@ -673,7 +673,6 @@ Section_Main_Functions:Toggle({ -- Main Auto-Farm Toggle
 	Default = false,
 	Callback = function()
 		repeat task.wait() until UIisLoaded == 2
-		
 		if MacLib.Options["AutoFarm_Toggle"].State then
 
             if not MacLib.Options["EnabledButton"].State then
@@ -705,7 +704,8 @@ Section_Main_Functions:Toggle({ -- Main Auto-Farm Toggle
 			end
 
             while MacLib.Options["AutoFarm_Toggle"].State and MacLib.Options["EnabledButton"].State and ((MacLib.Options["AutoFarm_Bot_Toggle"].State and MacLib.Options["mobs_Dropdown"].Value) or MacLib.Options["AutoFarm_Macro_Toggle"].State) do
-                auto_Farm()
+                print("AutoFarm")
+				auto_Farm()
 
 				task.wait(0.1)
             end
