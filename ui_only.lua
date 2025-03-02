@@ -1135,12 +1135,9 @@ Section_Settings_Misc:Toggle({
 	Name = "Check Players",
 	Default = false,
 	Callback = function()
-		print("1")
 		repeat task.wait() until UIisLoaded == 2
-		print("2")
 		print(MacLib.Options["Settings_CheckPlayers_Toggle"].State)
 		if MacLib.Options["Settings_CheckPlayers_Toggle"].State and (game.PlaceId == 80299472659017 or game.PlaceId == 110577167676254 or game.PlaceId == 76011326497329 or game.PlaceId == 86392425558311) then
-			print("on it")
 			checkPlayers()
 		end
 	end,
