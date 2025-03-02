@@ -832,16 +832,6 @@ Section_Main_Save:Button({
 		writefile("bitsv3rm/settings/bitsv3rm.json", "")
 	end,
 })
-Section_Main_Save:Button({
-	Name = "TEST",
-	Callback = function()
-        if UIisLoaded < 2 then 
-			return 
-		end
-		print(MacLib.Options["AutoColosseum_Regen_Dropdown"].Value)
-	end,
-})
-
 
 
 local Group_Function = Window:TabGroup() -- Function Group
