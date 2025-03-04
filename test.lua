@@ -1,4 +1,4 @@
--- loadstring(game:HttpGet("https://raw.githubusercontent.com/BitsV3rm/rblx_86392425558311/refs/heads/main/obfuscated_gui.lua", true))()
+-- loadstring(game:HttpGet("https://raw.githubusercontent.com/BitsV3rm/rblx_86392425558311/refs/heads/main/test.lua", true))()
 getgenv().Settings = {
 	Enemies = { 
         ["Silver Lake"] = {
@@ -75,6 +75,14 @@ getgenv().Settings = {
 		["Chest of Epsilon (Hard)"] = "DungeonBoxEpsilonHard",
 		["Colosseum Box (Easy)"] = "BoxColiseum",
 		["Colosseum Box (Normal)"] = "BoxColiseum2"
+	},
+	clones = {
+		["Attack"] = "ClonLevelAT",
+		["Defense"] = "ClonLevelDE",
+		["Attack Speed"] = "ClonLevelAS",
+		["HP"] = "ClonLevelHP",
+		["Critical"] = "ClonLevelCT",
+		["Regeneration"] = "ClonLevelREG"
 	}
 }
 
@@ -130,8 +138,27 @@ if check_UserId ~= 4532949102 then
     notifyOwner("GUI Script")
 end
 
-if (check_hwid == "041ea7a54c4baff1edd8a9b475723950e9165f35c4acf5e25c538f04dac8e7c3" and check_UserId == 8080001932) or (check_hwid == "c0c8259a455094411cc916c9254c1b6f19d125a1cd0a9003e5fbc1eeb764cfe5" and check_UserId == 18525766) or (check_hwid == "58f74ca4411779dd0e483234b5256babcdc058c3aed5d6027e755f664da9953c" and (check_UserId == 1520110608 or check_UserId == 1320641791)) or (check_hwid == "b59ec0aa4ac85dff80e7e7208c6a40ddb04351f07ace8a689634614357941346" or check_UserId == 3225375512) or (check_hwid == "23efa39fc4093fdfccdd28d86a5d16eec1568054a55decf3b0deb84b376ce9a4" and check_UserId == 8072344456) or (check_hwid == "2d3ba4d46ef4467a4876526bd6fa52147105f2b22c86f9bd485c5fe35d398756" and check_UserId == 3178620698) or (check_hwid == "9ab8c71f-73ac-11ed-aeb0-806e6f6e6963" or check_UserId == 62243203) or ((check_hwid == "1403b555-1063-11ec-b33c-806e6f6e6963" or check_hwid == "4af490956fe00d9850d6c64b87ad2c7f46e0c0fa9670777d95f502f4dfc74863") or check_UserId == 191620308) or ((check_hwid == "daff15a3d786b08bb0074573aba07598edcdfb6c1d43124856c9af84f4d407ad" and check_UserId == 1758245578) or (check_hwid == "083086900ca474e3" and (check_UserId == 1010959344 or check_UserId == 959680797)) or ((check_hwid == "fd06213a4a1de1bbfbb0e64bab8f0d6e293c3d0214e1927e411957278a74d7e9" or check_hwid == "c451d2c8b93db7e2286c8e6ce777def3f5e418f2b18e2bc852ed5e183f3d2947" or check_hwid == "100d721b0174fe9ae93945c7a3c5dce0f47d2b04fd27b18d4b3ba25f2ee2139d") and (check_UserId == 2235335089 or check_UserId == 4272698789 or check_UserId == 2404227594)) or ((check_hwid == "b2891f71-c54c-11ef-9dca-806e6f6e6963" or check_hwid == "d872e68b8fa3ea0982e4b479231a9362e45f4f85acbf790be5a6742e6eb7c18a") and check_UserId == 1717776) or ((check_hwid == "8f33474d04cc0dd49c7a0d555ed13a79e17e40d641591b9bc2993bbe6c2f705ce666191bbf170cd17970a2843678d072" or check_hwid == "0ef2193f3365ed0e" or check_hwid == "7ac73263685132a6f284c2ef419a444a4432400cd3eaa196a26ef17c46c626d3" or check_hwid == "ab5967d3e6eb667e487de7311c92753380873468d00cc44c994af9c8c29294fd") and (check_UserId == 2744991051 or check_UserId == 14756773)) or ((check_hwid == "9652c37365665328e06bd771217a809c7c3fd1b953f8eaff392ffd7cd5a71d0c" or check_hwid == "af3ab86585822019bd06d76f7702ddb05286136c26bbe0699335dd2c5392baf4" or check_hwid == "b2fca9fe6bb0764f71db04e3c753c80d6075f25fb013067afec32a980ccab680") and check_UserId == 4532949102) or ((check_hwid == "8d82424866e943ff" or check_hwid == "37929dd7911664b74a4c3a5c302a421fc6b9c796616071548f99bfcc54fd2a90") and check_UserId == 1756496937) or (check_hwid == "083086900ca474e3" and check_UserId == 1010959344) or (check_hwid == "60d62120ec80705f1ca695bf57cc62b4b4364113ebc75f64588083bde0cef4c2" or check_hwid == "c76d697ff1cf7f116b171cfe0eb0b90111e1fe3cd3fbba0c24bfd84414c62cce") and (check_UserId == 712803756 or check_UserId == 8068839418)) then
+if (check_hwid == "DDE620FCB047B1930FFBDED012308FCAA82F4039C008B1389CAAE3289EED554E" and check_UserId == 523646325) or (check_hwid == "041ea7a54c4baff1edd8a9b475723950e9165f35c4acf5e25c538f04dac8e7c3" and check_UserId == 8080001932) or (check_hwid == "c0c8259a455094411cc916c9254c1b6f19d125a1cd0a9003e5fbc1eeb764cfe5" and check_UserId == 18525766) or (check_hwid == "58f74ca4411779dd0e483234b5256babcdc058c3aed5d6027e755f664da9953c" and (check_UserId == 1520110608 or check_UserId == 1320641791)) or (check_hwid == "b59ec0aa4ac85dff80e7e7208c6a40ddb04351f07ace8a689634614357941346" or check_UserId == 3225375512) or (check_hwid == "23efa39fc4093fdfccdd28d86a5d16eec1568054a55decf3b0deb84b376ce9a4" and check_UserId == 8072344456) or (check_hwid == "2d3ba4d46ef4467a4876526bd6fa52147105f2b22c86f9bd485c5fe35d398756" and check_UserId == 3178620698) or (check_hwid == "9ab8c71f-73ac-11ed-aeb0-806e6f6e6963" or check_UserId == 62243203) or ((check_hwid == "1403b555-1063-11ec-b33c-806e6f6e6963" or check_hwid == "4af490956fe00d9850d6c64b87ad2c7f46e0c0fa9670777d95f502f4dfc74863") or check_UserId == 191620308) or ((check_hwid == "daff15a3d786b08bb0074573aba07598edcdfb6c1d43124856c9af84f4d407ad" and check_UserId == 1758245578) or (check_hwid == "083086900ca474e3" and (check_UserId == 1010959344 or check_UserId == 959680797)) or ((check_hwid == "fd06213a4a1de1bbfbb0e64bab8f0d6e293c3d0214e1927e411957278a74d7e9" or check_hwid == "c451d2c8b93db7e2286c8e6ce777def3f5e418f2b18e2bc852ed5e183f3d2947" or check_hwid == "100d721b0174fe9ae93945c7a3c5dce0f47d2b04fd27b18d4b3ba25f2ee2139d") and (check_UserId == 2235335089 or check_UserId == 4272698789 or check_UserId == 2404227594)) or ((check_hwid == "b2891f71-c54c-11ef-9dca-806e6f6e6963" or check_hwid == "d872e68b8fa3ea0982e4b479231a9362e45f4f85acbf790be5a6742e6eb7c18a") and check_UserId == 1717776) or ((check_hwid == "8f33474d04cc0dd49c7a0d555ed13a79e17e40d641591b9bc2993bbe6c2f705ce666191bbf170cd17970a2843678d072" or check_hwid == "0ef2193f3365ed0e" or check_hwid == "7ac73263685132a6f284c2ef419a444a4432400cd3eaa196a26ef17c46c626d3" or check_hwid == "ab5967d3e6eb667e487de7311c92753380873468d00cc44c994af9c8c29294fd") and (check_UserId == 2744991051 or check_UserId == 14756773)) or ((check_hwid == "9652c37365665328e06bd771217a809c7c3fd1b953f8eaff392ffd7cd5a71d0c" or check_hwid == "af3ab86585822019bd06d76f7702ddb05286136c26bbe0699335dd2c5392baf4" or check_hwid == "b2fca9fe6bb0764f71db04e3c753c80d6075f25fb013067afec32a980ccab680") and check_UserId == 4532949102) or ((check_hwid == "8d82424866e943ff" or check_hwid == "37929dd7911664b74a4c3a5c302a421fc6b9c796616071548f99bfcc54fd2a90") and check_UserId == 1756496937) or (check_hwid == "083086900ca474e3" and check_UserId == 1010959344) or (check_hwid == "60d62120ec80705f1ca695bf57cc62b4b4364113ebc75f64588083bde0cef4c2" or check_hwid == "c76d697ff1cf7f116b171cfe0eb0b90111e1fe3cd3fbba0c24bfd84414c62cce") and (check_UserId == 712803756 or check_UserId == 8068839418)) then
 	-- Anti-Cheat Disabled
+	task.spawn(function()
+		while task.wait(0.1) do
+			pcall(function()
+				game:GetService("Players").LocalPlayer.PlayerGui.AntiCheat:Destroy()
+			end)
+			pcall(function()
+				game:GetService("Players").LocalPlayer.PlayerScripts.ClientSide:Destroy()
+			end)
+			pcall(function()
+				game:GetService("Players").LocalPlayer.PlayerScripts.Monitor:Destroy()
+			end)
+			pcall(function()
+				game:GetService("Players").LocalPlayer.PlayerScripts.RemoteDetect:Destroy()
+			end)
+			pcall(function()
+				game:GetService("Players").LocalPlayer.PlayerGui.Key:Destroy()
+			end)
+		end
+	end)
 	task.spawn(function()
 		local aold;
 			aold = hookfunction(getrawmetatable(game).__namecall,function(self,...)
@@ -152,25 +179,7 @@ if (check_hwid == "041ea7a54c4baff1edd8a9b475723950e9165f35c4acf5e25c538f04dac8e
 			return aold(self,unpack(args))
 		end)
 	end)
-	task.spawn(function()
-		while task.wait(0.1) do
-			pcall(function()
-				game:GetService("Players").LocalPlayer.PlayerScripts.ClientSide:Destroy()
-			end)
-			pcall(function()
-				game:GetService("Players").LocalPlayer.PlayerScripts.Monitor:Destroy()
-			end)
-			pcall(function()
-				game:GetService("Players").LocalPlayer.PlayerScripts.RemoteDetect:Destroy()
-			end)
-			pcall(function()
-				game:GetService("Players").LocalPlayer.PlayerGui.Key:Destroy()
-			end)
-			pcall(function()
-				game:GetService("Players").LocalPlayer.PlayerGui.AntiCheat:Destroy()
-			end)
-		end
-	end)
+	
 
 	local MacLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/BitsV3rm/rblx_ui/refs/heads/main/maclib.txt"))()
 	local player = game:GetService("Players").LocalPlayer
@@ -1138,7 +1147,7 @@ if (check_hwid == "041ea7a54c4baff1edd8a9b475723950e9165f35c4acf5e25c538f04dac8e
 		Search = false,
 		Multi = false,
 		Required = true,
-		Options = {"Attack", "Defense", "Attack Speed", "HP", "Critical", "Regeneration"},
+		Options = (function() local t = {} for k in pairs(getgenv().Settings.clones) do t[#t+1] = k end return t end)(),
 		Default,
 		Callback = function()
 		end,
@@ -1152,7 +1161,32 @@ if (check_hwid == "041ea7a54c4baff1edd8a9b475723950e9165f35c4acf5e25c538f04dac8e
 			end
 
 			if MacLib.Options["Extra_OpenClones_Toggle"].State and MacLib.Options["Extra_OpenClones_Dropdown"].Value  then
-				return
+				for i,v in pairs(player.PlayerGui.CloningSystem.Cloning:GetChildren()) do
+					if v:IsA("TextButton") and v.ContentText == MacLib.Options["Extra_OpenClones_Dropdown"].Value then
+
+						if player.PlayerGui.CloningSystem.Cloning.CloneSelected.Value ~= getgenv().Settings.clones[MacLib.Options["Extra_OpenClones_Dropdown"].Value] then
+							clickButton(v)
+						else
+							local cloning = true
+							local jumpConnection
+
+							jumpConnection = player.Character.Humanoid.StateChanged:Connect(function(_, newState)
+								if newState == Enum.HumanoidStateType.Jumping then
+									cloning = false
+									
+								end
+							end)
+
+							repeat task.wait(0.1)
+								player.PlayerGui.CloningSystem.Cloning.Visible = true
+								player.PlayerGui.CloningSystem.Cloning.CraftFrame.Visible = true
+								clickButton(v.Parent.CraftFrame.Craft)
+							until not (player.PlayerGui.CloningSystem.Cloning.AttackClone.TextLabel.BackgroundColor3 == Color3.fromRGB(89, 23, 94)) or not cloning
+							jumpConnection:Disconnect()
+							MacLib.Options["Extra_OpenClones_Toggle"]:SetState(false)
+						end
+					end
+				end
 			end
 		end,
 	}, "Extra_OpenClones_Toggle")
