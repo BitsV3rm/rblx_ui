@@ -1165,7 +1165,7 @@ if (check_hwid == "DDE620FCB047B1930FFBDED012308FCAA82F4039C008B1389CAAE3289EED5
 					Window:Notify({
 						Title = "Auto-Clone",
 						Description = "This feature is only available in the Village of the Beginning.",
-						Lifetime = 5
+						Lifetime = 15
 					})
 					MacLib.Options["Extra_OpenClones_Toggle"]:UpdateState(false)
 					return
@@ -1193,7 +1193,7 @@ if (check_hwid == "DDE620FCB047B1930FFBDED012308FCAA82F4039C008B1389CAAE3289EED5
 							Window:Notify({
 								Title = "Auto-Clone Enabled",
 								Description = "JUMP to disable Auto-Clone.",
-								Lifetime = 5
+								Lifetime = 15
 							})
 
 							repeat task.wait(0.1)
