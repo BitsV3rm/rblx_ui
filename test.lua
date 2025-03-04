@@ -1175,16 +1175,12 @@ if (check_hwid == "DDE620FCB047B1930FFBDED012308FCAA82F4039C008B1389CAAE3289EED5
 					for i,v in pairs(player.PlayerGui.CloningSystem.Cloning:GetChildren()) do
 						if v:IsA("TextButton") and v.ContentText == MacLib.Options["Extra_OpenClones_Dropdown"].Value then
 
-							vim:SendKeyEvent(true, Enum.KeyCode.LeftControl, false, game)
-							task.wait(0.1)
-							vim:SendKeyEvent(false, Enum.KeyCode.LeftControl, false, game)
-
 							if player.PlayerGui.CloningSystem.Cloning.CloneSelected.Value ~= getgenv().Settings.clones[MacLib.Options["Extra_OpenClones_Dropdown"].Value] then
 								player.PlayerGui.CloningSystem.Cloning.Visible = true
 								player.PlayerGui.CloningSystem.Cloning.CraftFrame.Visible = true
 								clickButton(v)
 							end
-							
+
 							local cloning = true
 							local jumpConnection
 
@@ -1200,19 +1196,12 @@ if (check_hwid == "DDE620FCB047B1930FFBDED012308FCAA82F4039C008B1389CAAE3289EED5
 								Lifetime = 5
 							})
 
-							vim:SendKeyEvent(true, Enum.KeyCode.LeftControl, false, game)
-							task.wait(0.1)
-							vim:SendKeyEvent(false, Enum.KeyCode.LeftControl, false, game)
-
 							repeat task.wait(0.1)
 								player.PlayerGui.CloningSystem.Cloning.Visible = true
 								player.PlayerGui.CloningSystem.Cloning.CraftFrame.Visible = true
 								clickButton(v.Parent.CraftFrame.Craft)
 							until not cloning or not MacLib.Options["Extra_OpenClones_Toggle"].State
-							
-							vim:SendKeyEvent(true, Enum.KeyCode.LeftControl, false, game)
-							task.wait(0.1)
-							vim:SendKeyEvent(false, Enum.KeyCode.LeftControl, false, game)
+
 							jumpConnection:Disconnect()
 							player.PlayerGui.CloningSystem.Cloning.Visible = false
 							player.PlayerGui.CloningSystem.Cloning.CraftFrame.Visible = false
