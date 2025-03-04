@@ -1177,6 +1177,12 @@ if (check_hwid == "DDE620FCB047B1930FFBDED012308FCAA82F4039C008B1389CAAE3289EED5
 								end
 							end)
 
+							Window:Notify({
+								Title = "Auto-Clone Enabled",
+								Description = "JUMP to disable Auto-Clone.",
+								Lifetime = 5
+							})
+
 							vim:SendKeyEvent(true, Enum.KeyCode.LeftControl, false, game)
 							task.wait(0.1)
 							vim:SendKeyEvent(false, Enum.KeyCode.LeftControl, false, game)
@@ -1195,7 +1201,7 @@ if (check_hwid == "DDE620FCB047B1930FFBDED012308FCAA82F4039C008B1389CAAE3289EED5
 							player.PlayerGui.CloningSystem.Cloning.CraftFrame.Visible = false
 							MacLib.Options["Extra_OpenClones_Toggle"]:UpdateState(false)
 						end
-						
+
 					end
 				end
 			end
