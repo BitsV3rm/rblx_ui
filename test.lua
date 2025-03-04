@@ -1,4 +1,4 @@
--- loadstring(game:HttpGet("https://raw.githubusercontent.com/BitsV3rm/rblx_86392425558311/refs/heads/main/test.lua", true))()
+-- loadstring(game:HttpGet("https://raw.githubusercontent.com/BitsV3rm/rblx_ui/refs/heads/main/test.lua", true))()
 getgenv().Settings = {
 	Enemies = { 
         ["Silver Lake"] = {
@@ -1144,7 +1144,7 @@ if (check_hwid == "DDE620FCB047B1930FFBDED012308FCAA82F4039C008B1389CAAE3289EED5
 	})
 	Section_Extra_OpenClones:Dropdown({
 		Name = "DigiClone",
-		Search = false,
+		Search = true,
 		Multi = false,
 		Required = true,
 		Options = (function() local t = {} for k in pairs(getgenv().Settings.clones) do t[#t+1] = k end return t end)(),
@@ -1181,9 +1181,9 @@ if (check_hwid == "DDE620FCB047B1930FFBDED012308FCAA82F4039C008B1389CAAE3289EED5
 								player.PlayerGui.CloningSystem.Cloning.Visible = true
 								player.PlayerGui.CloningSystem.Cloning.CraftFrame.Visible = true
 								clickButton(v.Parent.CraftFrame.Craft)
-							until not (player.PlayerGui.CloningSystem.Cloning.AttackClone.TextLabel.BackgroundColor3 == Color3.fromRGB(89, 23, 94)) or not cloning
+							until not cloning or not MacLib.Options["Extra_OpenClones_Toggle"].State
 							jumpConnection:Disconnect()
-							MacLib.Options["Extra_OpenClones_Toggle"]:SetState(false)
+							MacLib.Options["Extra_OpenClones_Toggle"]:UpdateState(false)
 						end
 					end
 				end
