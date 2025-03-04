@@ -1161,47 +1161,49 @@ if (check_hwid == "DDE620FCB047B1930FFBDED012308FCAA82F4039C008B1389CAAE3289EED5
 			end
 
 			if MacLib.Options["Extra_OpenClones_Toggle"].State and MacLib.Options["Extra_OpenClones_Dropdown"].Value  then
-				for i,v in pairs(player.PlayerGui.CloningSystem.Cloning:GetChildren()) do
-					if v:IsA("TextButton") and v.ContentText == MacLib.Options["Extra_OpenClones_Dropdown"].Value then
+				while MacLib.Options["Extra_OpenClones_Toggle"].State and task.wait(0.1) do
+					for i,v in pairs(player.PlayerGui.CloningSystem.Cloning:GetChildren()) do
+						if v:IsA("TextButton") and v.ContentText == MacLib.Options["Extra_OpenClones_Dropdown"].Value then
 
-						if player.PlayerGui.CloningSystem.Cloning.CloneSelected.Value ~= getgenv().Settings.clones[MacLib.Options["Extra_OpenClones_Dropdown"].Value] then
-							clickButton(v)
-						else
-							local cloning = true
-							local jumpConnection
+							if player.PlayerGui.CloningSystem.Cloning.CloneSelected.Value ~= getgenv().Settings.clones[MacLib.Options["Extra_OpenClones_Dropdown"].Value] then
+								clickButton(v)
+							else
+								local cloning = true
+								local jumpConnection
 
-							jumpConnection = player.Character.Humanoid.StateChanged:Connect(function(_, newState)
-								if newState == Enum.HumanoidStateType.Jumping then
-									cloning = false
-									
-								end
-							end)
+								jumpConnection = player.Character.Humanoid.StateChanged:Connect(function(_, newState)
+									if newState == Enum.HumanoidStateType.Jumping then
+										cloning = false
+										
+									end
+								end)
 
-							Window:Notify({
-								Title = "Auto-Clone Enabled",
-								Description = "JUMP to disable Auto-Clone.",
-								Lifetime = 5
-							})
+								Window:Notify({
+									Title = "Auto-Clone Enabled",
+									Description = "JUMP to disable Auto-Clone.",
+									Lifetime = 5
+								})
 
-							vim:SendKeyEvent(true, Enum.KeyCode.LeftControl, false, game)
-							task.wait(0.1)
-							vim:SendKeyEvent(false, Enum.KeyCode.LeftControl, false, game)
+								vim:SendKeyEvent(true, Enum.KeyCode.LeftControl, false, game)
+								task.wait(0.1)
+								vim:SendKeyEvent(false, Enum.KeyCode.LeftControl, false, game)
 
-							repeat task.wait(0.1)
-								player.PlayerGui.CloningSystem.Cloning.Visible = true
-								player.PlayerGui.CloningSystem.Cloning.CraftFrame.Visible = true
-								clickButton(v.Parent.CraftFrame.Craft)
-							until not cloning or not MacLib.Options["Extra_OpenClones_Toggle"].State
-							
-							vim:SendKeyEvent(true, Enum.KeyCode.LeftControl, false, game)
-							task.wait(0.1)
-							vim:SendKeyEvent(false, Enum.KeyCode.LeftControl, false, game)
-							jumpConnection:Disconnect()
-							player.PlayerGui.CloningSystem.Cloning.Visible = false
-							player.PlayerGui.CloningSystem.Cloning.CraftFrame.Visible = false
-							MacLib.Options["Extra_OpenClones_Toggle"]:UpdateState(false)
+								repeat task.wait(0.1)
+									player.PlayerGui.CloningSystem.Cloning.Visible = true
+									player.PlayerGui.CloningSystem.Cloning.CraftFrame.Visible = true
+									clickButton(v.Parent.CraftFrame.Craft)
+								until not cloning or not MacLib.Options["Extra_OpenClones_Toggle"].State
+								
+								vim:SendKeyEvent(true, Enum.KeyCode.LeftControl, false, game)
+								task.wait(0.1)
+								vim:SendKeyEvent(false, Enum.KeyCode.LeftControl, false, game)
+								jumpConnection:Disconnect()
+								player.PlayerGui.CloningSystem.Cloning.Visible = false
+								player.PlayerGui.CloningSystem.Cloning.CraftFrame.Visible = false
+								MacLib.Options["Extra_OpenClones_Toggle"]:UpdateState(false)
+							end
+
 						end
-
 					end
 				end
 			end
