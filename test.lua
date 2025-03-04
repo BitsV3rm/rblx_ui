@@ -1183,6 +1183,8 @@ if (check_hwid == "DDE620FCB047B1930FFBDED012308FCAA82F4039C008B1389CAAE3289EED5
 								clickButton(v.Parent.CraftFrame.Craft)
 							until not cloning or not MacLib.Options["Extra_OpenClones_Toggle"].State
 							jumpConnection:Disconnect()
+							player.PlayerGui.CloningSystem.Cloning.Visible = false
+							player.PlayerGui.CloningSystem.Cloning.CraftFrame.Visible = false
 							MacLib.Options["Extra_OpenClones_Toggle"]:UpdateState(false)
 						end
 					end
