@@ -1161,6 +1161,16 @@ if (check_hwid == "DDE620FCB047B1930FFBDED012308FCAA82F4039C008B1389CAAE3289EED5
 			end
 
 			if MacLib.Options["Extra_OpenClones_Toggle"].State and MacLib.Options["Extra_OpenClones_Dropdown"].Value  then
+				if MacLib.Options["Extra_OpenClones_Toggle"].State and MacLib.Options["Extra_OpenClones_Dropdown"].Value and game.PlaceId ~= 114035449487554 then
+					Window:Notify({
+						Title = "Auto-Clone",
+						Description = "This feature is only available in the Village of the Beginning.",
+						Lifetime = 5
+					})
+					MacLib.Options["Extra_OpenClones_Toggle"]:UpdateState(false)
+					return
+				end
+
 				while MacLib.Options["Extra_OpenClones_Toggle"].State and task.wait(0.1) do
 					for i,v in pairs(player.PlayerGui.CloningSystem.Cloning:GetChildren()) do
 						if v:IsA("TextButton") and v.ContentText == MacLib.Options["Extra_OpenClones_Dropdown"].Value then
