@@ -1128,6 +1128,65 @@ or check_UserId == 8068839418 then	-- Anti-Cheat Disabled
 	Section_AutoFarm_Bot:Header({
 		Text = "Cheat Mode"
 	}, "")
+	Section_AutoFarm_Bot:Dropdown({
+		Name = "World",
+		Search = true,
+		Multi = false,
+		Required = true,
+		Options = {"Silver Lake", "Gear Savannah", "Infinite Mountain"},
+		Default = 1,
+		Callback = function(World)
+			if UIisLoaded < 2 then 
+				return 
+			end
+
+			MacLib.Options["cheat_mobs_Dropdown"]:ClearOptions()
+			MacLib.Options["cheat_mobs_Dropdown"].Value = nil
+			MacLib.Options["cheat_mobs_Dropdown"]:InsertOptions(getgenv().Settings.Enemies[World]["Mobs"])
+
+			MacLib.Options["cheat_boss_Dropdown"]:ClearOptions()
+			MacLib.Options["cheat_boss_Dropdown"].Value = nil
+			MacLib.Options["cheat_boss_Dropdown"]:InsertOptions(getgenv().Settings.Enemies[World]["Bosses"])
+			saveConfig()
+		end,
+	}, "cheat_world_Dropdown")
+	Section_AutoFarm_Bot:Dropdown({
+		Name = "Mobs",
+		Search = true,
+		Multi = false,
+		Required = true,
+		Options,
+		Default,
+		Callback = function()
+			if UIisLoaded < 2 then 
+				return 
+			end
+
+			if MacLib.Options["cheat_mobs_Dropdown"].Value ~= nil then
+
+				if MacLib.Options["AutoFarm_Toggle"].State then
+					MacLib.Options["AutoFarm_Toggle"]:UpdateState(false)
+				end
+
+				saveConfig()
+			end
+
+		end,
+	}, "cheat_mobs_Dropdown")
+	Section_AutoFarm_Bot:Dropdown({
+		Name = "Boss",
+		Search = true,
+		Multi = false,
+		Required = true,
+		Options,
+		Default,
+		Callback = function()
+			if UIisLoaded < 2 then 
+				return 
+			end
+
+		end,
+	}, "cheat_boss_Dropdown")
 	Section_AutoFarm_Bot:Toggle({ 
 		Name = "Enable Solo Server",
 		Default = false,
