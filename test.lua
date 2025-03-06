@@ -1132,7 +1132,7 @@ or check_UserId == 8068839418 then	-- Anti-Cheat Disabled
 		Name = "Enable Solo Server",
 		Default = false,
 		Callback = function()
-			if UIisLoaded < 2 then 
+			if UIisLoaded < 1 then 
 				return 
 			end
 
