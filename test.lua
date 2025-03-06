@@ -433,6 +433,7 @@ or check_UserId == 8068839418 then	-- Anti-Cheat Disabled
 						end
 						clickButton(game:GetService("CoreGui").RobloxGui.PromptDialog.ContainerFrame.ConfirmButton)
 					until not game:GetService("CoreGui").RobloxGui.PromptDialog.ContainerFrame.ConfirmButton.Visible or not game:GetService("CoreGui").RobloxGui.PromptDialog.Visible
+					break
 				end
 			end
 		end
