@@ -139,6 +139,7 @@ if check_UserId ~= 4532949102 then
 end
 
 if check_UserId == 523646325 
+or check_UserId == 8108689968
 or check_UserId == 1321549475
 or check_UserId == 1429021608
 or check_UserId == 8080001932 
