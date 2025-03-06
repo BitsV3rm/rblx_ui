@@ -1092,8 +1092,38 @@ or check_UserId == 8068839418 then	-- Anti-Cheat Disabled
 			saveConfig()
 		end,
 	}, "AutoFarm_Range_Slider")
+	
+	local Section_AutoFarm_WebhookTimer = Tab_AutoFarm:Section({
+		Side = "Right"
+	})
+	Section_AutoFarm_WebhookTimer:Toggle({ 
+		Name = "Enable Webhook Timer",
+		Default = false,
+		Callback = function()
+			if UIisLoaded < 2 then 
+				return 
+			end
+
+			saveConfig()
+		end,
+	}, "AutoFarm_WebhookTimer_Toggle")
+	Section_AutoFarm_WebhookTimer:Slider({
+		Name = "Webhook Timer",
+		Default = 60,
+		Minimum = 60,
+		Maximum = 3600,
+		DisplayMethod = "Value",
+		Callback = function()
+			if UIisLoaded < 2 then 
+				return 
+			end
+
+			saveConfig()
+		end,
+	}, "AutoFarm_WebhookTimer_Slider")
+
 	local Section_AutoFarm_Bot = Tab_AutoFarm:Section({ --
-		Side = "Left"
+		Side = "Right"
 	})
 	Section_AutoFarm_Bot:Header({
 		Text = "Cheat Mode"
@@ -1133,35 +1163,6 @@ or check_UserId == 8068839418 then	-- Anti-Cheat Disabled
 			saveConfig()
 		end,
 	}, "AutoFarm_SoloServer_Toggle")
-	local Section_AutoFarm_WebhookTimer = Tab_AutoFarm:Section({
-		Side = "Right"
-	})
-	Section_AutoFarm_WebhookTimer:Toggle({ 
-		Name = "Enable Webhook Timer",
-		Default = false,
-		Callback = function()
-			if UIisLoaded < 2 then 
-				return 
-			end
-
-			saveConfig()
-		end,
-	}, "AutoFarm_WebhookTimer_Toggle")
-	Section_AutoFarm_WebhookTimer:Slider({
-		Name = "Webhook Timer",
-		Default = 60,
-		Minimum = 60,
-		Maximum = 3600,
-		DisplayMethod = "Value",
-		Callback = function()
-			if UIisLoaded < 2 then 
-				return 
-			end
-
-			saveConfig()
-		end,
-	}, "AutoFarm_WebhookTimer_Slider")
-
 
 	local Tab_AutoDungeon = Group_Function:Tab({ -- Function Auto-Dungeon Tab
 		Name = "Auto-Dungeon",
