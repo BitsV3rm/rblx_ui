@@ -1109,7 +1109,7 @@ or check_UserId == 8068839418 then	-- Anti-Cheat Disabled
 			if MacLib.Options["AutoFarm_SoloServer_Toggle"].State then
 				local players = game:GetService("Players"):GetPlayers()
 
-				if #players > 0 then
+				if #players > 1 then
 					for i, v in ipairs(players) do
 						if v.UserId ~= player.UserId then
 							repeat task.wait() until not player.PlayerGui.Loading.MainFrame.ImageLabel.Visible
